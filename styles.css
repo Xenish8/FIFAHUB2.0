@@ -1,0 +1,4140 @@
+/* БАЗА */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #f9fafb;
+  background: #02040a;
+}
+
+body {
+  min-height: 100vh;
+}
+
+:root {
+    --season-bg-image: none;
+  }
+  
+
+/* ФОН-СЕТКА В СТИЛЕ UI */
+
+.page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;                 /* главное — не отрицательный индекс */
+    pointer-events: none;
+  
+    background:
+      linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.45),
+        rgba(0, 0, 0, 0.75)
+      ),
+      url("./assets/bg/fifa-bg.jpg") center center / cover no-repeat fixed;
+  }
+  
+  
+  
+
+/* УЗКИЙ КОНТЕЙНЕР */
+
+.frame {
+    position: relative;
+    z-index: 1;                  /* поднимаем контейнер над .page-bg */
+  
+    width: min(1520px, 100% - 32px);
+    margin: 32px auto 28px;
+    padding: 24px 24px 28px;
+    border-radius: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    background: rgba(9, 9, 11, 0.78);
+    backdrop-filter: blur(12px);
+    box-shadow:
+      0 32px 90px rgba(0, 0, 0, 0.95),
+      0 0 0 1px rgba(17, 24, 39, 0.90);
+  }
+
+ 
+
+/* Адаптив: на узких экранах убираем боковые меню, чтобы не мешали */
+
+@media (max-width: 1200px) {
+  .side-menu {
+    display: none;
+  }
+}
+
+  
+  
+  
+  
+
+/* ХЕДЕР – БЕЗ ЛОГОТИПОВ И МЕНЮ */
+
+.hero {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.hero-label {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #9ca3af;
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.hero-title {
+    position: relative;
+    margin: 8px 0 6px;
+    font-family: "Orbitron", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    font-size: clamp(40px, 7vw, 60px);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 600;
+  
+    /* более спокойный, “металлический” градиент */
+    background: linear-gradient(110deg, #f9fafb, #e5e7eb, #f9fafb);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  
+    /* лёгкое свечение, чтобы надпись не выглядела плоской */
+    text-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+  }
+
+  
+  .hero-title::after {
+    /* тонкая подсветка под заголовком (вместо вырвиглазной палитры) */
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -6px;
+    width: 52%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.9), transparent);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  
+  .hero-title-accent {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: 700;
+  
+    /* 2.0 – одна яркая неоновая точка */
+    color: #facc15;
+    text-shadow:
+      0 0 18px rgba(250, 204, 21, 0.8),
+      0 0 32px rgba(0, 0, 0, 0.9);
+  }
+  
+  
+
+.hero-subtitle {
+  margin: 6px auto 0;
+  max-width: 520px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.hero-meta {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-meta-pill {
+  font-size: 11px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background: rgba(15, 23, 42, 0.96);
+  color: #e5e7eb;
+}
+
+.hero-meta-pill--current {
+  border-color: rgba(217, 255, 69, 0.9);
+}
+
+/* УНИВЕРСАЛЬНАЯ ПЛАШКА FIFA (data-fifa-id) */
+
+.fifa-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  background: radial-gradient(circle at 0 0, var(--fifa-color-soft), #020617);
+  color: #f9fafb;
+}
+
+/* ГРИД С ПЛИТКАМИ */
+
+.grid-wrap {
+  margin-top: 8px;
+}
+
+.seasons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+  
+  
+
+/* ОДНА ПЛИТКА СЕЗОНА */
+
+/* ОДНА ПЛИТКА СЕЗОНА */
+
+.season-tile {
+  --season-color: #d9f99d;
+  --season-color-soft: rgba(217, 249, 157, 0.1);
+
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  border-radius: 20px;
+  padding: 20px 18px 18px;
+  min-height: 210px;
+
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.93)),
+    radial-gradient(circle at 0 0, var(--season-color-soft), transparent 60%);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.98);
+
+  /* плавные переходы и для движения, и для “ретро”-фильтра */
+  transition:
+    transform 0.22s cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 0.22s cubic-bezier(0.19, 1, 0.22, 1),
+    border-color 0.18s ease-out,
+    filter 0.25s ease-out,
+    opacity 0.25s ease-out;
+}
+
+/* Ретро-тусклость по умолчанию для всех, кроме текущего сезона */
+.season-tile:not(.season-tile--current) {
+  filter: grayscale(0.35) saturate(0.7) brightness(0.85);
+  opacity: 0.9;
+}
+
+
+  
+  /* нижняя линийка в цвет сезона для всех, кроме current */
+  .season-tile::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--season-color), transparent);
+    opacity: 0.9;
+  }
+  
+  /* hover для всех плиток */
+  .season-tile:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 30px 70px rgba(0, 0, 0, 0.95),
+      0 0 0 1px var(--season-color),
+      0 0 22px var(--season-color);
+    border-color: var(--season-color);
+  
+    /* при наведении плитка становится “живой” */
+    filter: none;
+    opacity: 1;
+  }
+  
+  
+  
+  /* FC 26 – отмечаем, что она текущая, и вешаем анимацию свечения по контуру */
+/* FC 26 – отмечаем, что она текущая, и вешаем анимацию свечения по контуру */
+.season-tile--current {
+  border-color: var(--season-color);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 1),
+    0 0 0 1px rgba(17, 24, 39, 1);
+
+  /* без ретро-тусклости – всегда “живой” */
+  filter: none;
+  opacity: 1;
+
+  /* постоянный неоновый пульс по контуру */
+  animation: fc26Pulse 2.4s ease-in-out infinite alternate;
+}
+
+  
+  
+  /* Плавный пульс неона по контуру */
+  @keyframes fc26Pulse {
+    0%,
+    100% {
+      box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(15, 23, 42, 0.98);
+    }
+    50% {
+      box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(0, 245, 212, 0.9),
+        0 0 22px rgba(0, 245, 212, 0.75);
+    }
+  }
+  
+  /* ВЕРХ ПЛИТКИ — ТОЛЬКО ОДНА НАДПИСЬ */
+  
+  .season-tile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .season-tile-title {
+    font-family: "Orbitron", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--season-color);
+    text-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+  }
+  
+  .season-tile-title-bar {
+    width: 46%;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--season-color), transparent);
+    opacity: 0.9;
+  }
+  
+  /* НИЗ ПЛИТКИ — ПОД БУДУЩУЮ КАРТИНКУ */
+  
+  .season-tile-body {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 14px;
+    border: 1px dashed rgba(31, 41, 55, 0.9);
+    overflow: hidden; /* чтобы фон не вылезал за скругления */
+  }
+  
+  /* Слой с фоновой картинкой + затемнение, чтобы текст был читаемым */
+  .season-tile-body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.20),
+        rgba(15, 23, 42, 0.35)
+      ),
+      var(--season-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.99;  /* чем меньше число, тем более “прозрачный” клуб */
+  }
+  
+  
+  /* Таблетка "АКТУАЛЬНАЯ" под текущей плиткой */
+  
+  .season-tile-status {
+    margin-top: 10px;
+    align-self: center;
+  
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  
+    padding: 3px 12px;
+    border-radius: 999px;
+  
+    border: 1px solid var(--season-color);
+    color: var(--season-color);
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.85);
+  }
+  
+  
+
+  /* clickable season only */
+.season-tile--clickable{
+  cursor: pointer;
+}
+.season-tile--clickable:hover{
+  border-color: color-mix(in srgb, var(--season-color) 55%, rgba(255,255,255,0.10));
+  box-shadow:
+    0 26px 68px rgba(0,0,0,0.92),
+    0 0 0 1px rgba(15,23,42,0.98),
+    0 0 70px color-mix(in srgb, var(--season-color) 20%, transparent);
+}
+
+/* =========================
+   FC 26 — TOURNAMENTS VIEW
+   ========================= */
+
+.tournaments-view{
+  border-radius: 26px;
+  padding: 18px 18px 22px;
+  background: linear-gradient(135deg, rgba(6,8,14,0.94), rgba(2,6,23,0.90));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 32px 86px rgba(0,0,0,0.74);
+}
+
+.tournaments-head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.tournaments-title{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.92);
+}
+
+.tournaments-back{
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.90);
+  background: rgba(15, 23, 42, 0.78);
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.16),
+    0 0 22px rgba(0,0,0,0.55);
+}
+
+.tournament-list{
+  display: grid;
+  gap: 14px;
+}
+
+.tournament-btn{
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  cursor: pointer;
+
+  width: 100%;
+  border-radius: 22px;
+  padding: 18px 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 18px;
+
+  background:
+    radial-gradient(circle at 18% 30%, color-mix(in srgb, var(--tourn-color) 22%, transparent), transparent 56%),
+    linear-gradient(135deg, rgba(8,12,22,0.94), rgba(18, 24, 46, 0.92));
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 32%, rgba(148,163,184,0.14)),
+    0 22px 60px rgba(0,0,0,0.72),
+    0 0 70px color-mix(in srgb, var(--tourn-color) 18%, transparent);
+
+  transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+}
+
+.tournament-btn:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 55%, rgba(255,255,255,0.10)),
+    0 26px 76px rgba(0,0,0,0.78),
+    0 0 95px color-mix(in srgb, var(--tourn-color) 28%, transparent);
+}
+
+/* =========================
+   TOURNAMENT BUTTON CONTENT (CLEAN)
+   ========================= */
+
+.tournament-btn{
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* левый блок, центр, пустой спейсер */
+  align-items: center;
+  padding: 22px 22px;
+  min-height: 84px;
+}
+
+/* LEFT: UCL • DATE */
+.tourn-leftline{
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.94);
+}
+
+.tourn-title,
+.tourn-date{
+  color: rgba(255,255,255,0.94);
+}
+
+/* big dot */
+.tourn-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.82);
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.65),
+    0 0 18px color-mix(in srgb, var(--tourn-color) 28%, transparent);
+  transform: translateY(1px);
+}
+
+/* CENTER: PLAYERS + LOGOS */
+.tourn-centerline{
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.94);
+}
+
+.tourn-player{
+  color: rgba(255,255,255,0.94);
+}
+
+.tourn-dash{
+  color: rgba(229,231,235,0.42);
+}
+
+.tourn-center-gap{
+  width: 26px;
+  height: 1px;
+}
+
+.tourn-club{
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--tourn-color) 22%, transparent));
+}
+
+/* RIGHT spacer (for symmetry) */
+.tourn-spacer{
+  justify-self: end;
+  width: 1px;
+  height: 1px;
+}
+
+/* mobile */
+@media (max-width: 900px){
+  .tournament-btn{
+    grid-template-columns: 1fr;
+    gap: 12px;
+    justify-items: start;
+  }
+  .tourn-centerline{
+    justify-self: start;
+  }
+  .tourn-spacer{
+    display: none;
+  }
+}
+
+
+
+.tournament-scan{
+  position: absolute;
+  inset: -40% -10%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: rotate(8deg) translateX(-70%);
+  animation: tourScan 3.6s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes tourScan{
+  0%   { transform: rotate(8deg) translateX(-70%); opacity: 0.0; }
+  25%  { opacity: 0.55; }
+  55%  { opacity: 0.35; }
+  100% { transform: rotate(8deg) translateX(70%); opacity: 0.0; }
+}
+
+@keyframes tourGlitchA{
+  0%, 92%, 100% { transform: translate(1px,-1px); }
+  93% { transform: translate(3px,-2px); }
+  94% { transform: translate(0px,0px); }
+  95% { transform: translate(2px,-1px); }
+}
+@keyframes tourGlitchB{
+  0%, 90%, 100% { transform: translate(-1px,1px); }
+  91% { transform: translate(-3px,2px); }
+  92% { transform: translate(0px,0px); }
+  93% { transform: translate(-2px,1px); }
+}
+
+/* =========================
+   TOURNAMENT PAGE
+   ========================= */
+
+.tournament-page{
+  --tourn-color: #7C3AED;
+
+  border-radius: 26px;
+  padding: 18px 18px 22px;
+  background: linear-gradient(135deg, rgba(6,8,14,0.94), rgba(2,6,23,0.90));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 32px 86px rgba(0,0,0,0.74);
+}
+
+.tournament-page-head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.tournament-page-title{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.92);
+}
+
+.tournament-page-back{
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.90);
+  background: rgba(15, 23, 42, 0.78);
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.16),
+    0 0 22px rgba(0,0,0,0.55);
+}
+
+/* HERO */
+.tournament-hero{
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 18px 18px;
+
+  background:
+    radial-gradient(circle at 18% 30%, color-mix(in srgb, var(--tourn-color) 22%, transparent), transparent 56%),
+    linear-gradient(135deg, rgba(8,12,22,0.94), rgba(18, 24, 46, 0.92));
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 30%, rgba(148,163,184,0.14)),
+    0 18px 50px rgba(0,0,0,0.66),
+    0 0 80px color-mix(in srgb, var(--tourn-color) 16%, transparent);
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.hero-line{
+  display:flex;
+  align-items:center;
+  gap: 14px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.hero-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.82);
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.65),
+    0 0 18px color-mix(in srgb, var(--tourn-color) 28%, transparent);
+}
+
+.tournament-hero-center{
+  justify-self: center;
+  display:flex;
+  align-items:center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.18rem;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.hero-player{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+}
+
+.hero-sep{
+  width: 26px;
+  height: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tourn-color) 45%, rgba(255,255,255,0.10));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--tourn-color) 22%, transparent);
+}
+
+.hero-club{
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 20px color-mix(in srgb, var(--tourn-color) 18%, transparent));
+}
+
+.hero-team{
+  color: rgba(229,231,235,0.82);
+}
+
+/* SECTIONS */
+.tournament-section{
+  margin-top: 18px;
+}
+
+.section-title{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.90);
+  margin: 10px 4px 12px;
+}
+
+/* GROUP STAGE */
+.gs-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.gs-card{
+  border-radius: 22px;
+  padding: 16px 16px 14px;
+  background: linear-gradient(135deg, rgba(8,12,22,0.92), rgba(2,6,23,0.88));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 18px 46px rgba(0,0,0,0.62);
+}
+
+.gs-card-head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.gs-who{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.90);
+}
+
+.gs-who-team{
+  color: rgba(229,231,235,0.78);
+}
+
+.gs-logo{
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--tourn-color) 18%, transparent));
+}
+
+.gs-place{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  margin-bottom: 12px;
+}
+
+.gs-place-label{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.62);
+}
+
+.gs-place-value{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--tourn-color) 22%, transparent);
+}
+
+.gs-table{
+  display:grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+
+.gs-th{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.62);
+  text-align:center;
+}
+
+
+.gs-td{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-align:center;
+
+  padding: 12px 0;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 0 1px rgba(148,163,184,0.12);
+}
+
+/* W/D/L accents */
+.gs-td--w{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #22c55e 45%, rgba(148,163,184,0.12)),
+    0 0 22px rgba(34,197,94,0.10);
+}
+
+.gs-td--d{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #38bdf8 45%, rgba(148,163,184,0.12)),
+    0 0 22px rgba(56,189,248,0.10);
+}
+
+.gs-td--l{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #ef4444 45%, rgba(148,163,184,0.12)),
+    0 0 22px rgba(239,68,68,0.10);
+}
+
+
+
+.gs-td--pts{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 26%, rgba(148,163,184,0.10)),
+    0 0 22px color-mix(in srgb, var(--tourn-color) 14%, transparent);
+
+    font-size: 1.6rem;
+  filter: brightness(1.08);
+}
+
+/* KNOCKOUT */
+.ko-stage{
+  margin-bottom: 14px;
+}
+
+.ko-stage-label{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.70);
+  margin: 8px 4px 10px;
+}
+
+.ko-stage-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.ko-col{
+  border-radius: 22px;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(8,12,22,0.92), rgba(2,6,23,0.88));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 18px 46px rgba(0,0,0,0.62);
+}
+
+.ko-col-head{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.90);
+  margin-bottom: 10px;
+}
+
+/* TIE CARD */
+.tie-card{
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+
+  background:
+    radial-gradient(circle at 22% 20%, color-mix(in srgb, var(--tourn-color) 14%, transparent), transparent 58%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 14px 34px rgba(0,0,0,0.58);
+}
+
+
+.tie-card--win{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #22c55e 35%, rgba(148,163,184,0.14)),
+    0 14px 34px rgba(0,0,0,0.58),
+    0 0 26px rgba(34,197,94,0.12);
+}
+.tie-card--loss{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #ef4444 35%, rgba(148,163,184,0.14)),
+    0 14px 34px rgba(0,0,0,0.58),
+    0 0 26px rgba(239,68,68,0.12);
+}
+
+.tie-row{
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.tie-vs{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.78);
+  text-align: center;
+
+  width: 86px;
+  height: 72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 0 0 1px rgba(148,163,184,0.10);
+}
+
+
+.tie-oppbig{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.tie-opp-logo-big{
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 12px rgba(0,0,0,0.55))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--tourn-color) 14%, transparent));
+}
+
+
+.tie-opp-name-big{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+
+  /* важно для marquee */
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* контейнер, который мы будем двигать */
+.tie-opp-name-big > span{
+  display: inline-block;
+  will-change: transform;
+}
+
+/* когда длинно — включаем плавный “туда-сюда” */
+.tie-opp-name-big.is-marquee{
+  text-overflow: clip; /* чтобы не было троеточия во время движения */
+}
+
+.tie-opp-name-big.is-marquee > span{
+  animation: tieMarqueePingPong 4.2s ease-in-out infinite;
+}
+
+@keyframes tieMarqueePingPong{
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(var(--marquee-shift, -40px)); }
+  100% { transform: translateX(0); }
+}
+
+
+
+
+
+.tie-card--empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: rgba(229,231,235,0.40);
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  padding: 26px 12px;
+}
+
+.tie-opp{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tie-opp-logo{
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.55));
+}
+
+.tie-opp-name{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.tie-score{
+  border: 0;
+  cursor: pointer;
+  border-radius: 18px;
+
+  padding: 0;
+  margin: 0;
+
+  width: 300px;
+  height: 72px;
+
+  background: transparent;
+
+  /* фикс вертикального центрирования */
+  display: block;
+  position: relative;
+
+  perspective: 900px;
+  line-height: 0; /* убираем влияние дефолтного line-height */
+}
+
+
+.tie-score--locked{
+  cursor: default;
+  opacity: 1;
+}
+
+.tie-score:disabled{
+  opacity: 1;
+  filter: none;
+  color: inherit;
+}
+.tie-score:disabled .flip-face{
+  opacity: 1;
+  filter: none;
+  color: rgba(255,255,255,0.92);
+}
+
+
+.flip-card{
+  position: relative;
+}
+
+.flip-card .flip-face{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+  line-height: 1;
+  color: rgba(255,255,255,0.92);
+
+  background: rgba(15, 23, 42, 0.72);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 22%, rgba(148,163,184,0.14)),
+    0 0 26px color-mix(in srgb, var(--tourn-color) 14%, transparent);
+
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.2,.8,.2,1), filter 160ms ease;
+}
+
+
+.flip-card .flip-front{
+  transform: rotateX(0deg);
+}
+
+.flip-card .flip-back{
+  transform: rotateX(180deg);
+  padding: 0 14px;
+  text-align: center;
+  font-size: 1.55rem;      /* было меньше — делаем таким же */
+  letter-spacing: 0.20rem; /* чтобы совпадало */
+}
+
+
+
+.tie-score:hover .flip-face{
+  filter: brightness(1.06);
+}
+
+.tie-score.is-flipped .flip-front{
+  transform: rotateX(180deg);
+}
+.tie-score.is-flipped .flip-back{
+  transform: rotateX(360deg);
+}
+
+/* мобилка */
+@media (max-width: 640px){
+  .tie-row{
+    grid-template-columns: 64px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .tie-score{
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+}
+
+
+.tie-score:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 35%, rgba(148,163,184,0.14)),
+    0 0 30px color-mix(in srgb, var(--tourn-color) 18%, transparent);
+}
+
+.tie-score--locked{
+  cursor: default;
+  opacity: 0.75;
+}
+
+
+
+/* AWARDS */
+.award-card{
+  border-radius: 22px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at 18% 30%, color-mix(in srgb, var(--tourn-color) 18%, transparent), transparent 56%),
+    linear-gradient(135deg, rgba(8,12,22,0.94), rgba(18, 24, 46, 0.92));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 24%, rgba(148,163,184,0.14)),
+    0 18px 50px rgba(0,0,0,0.66);
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.award-label{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.62);
+}
+
+.award-name{
+  margin-top: 6px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.award-team{
+  margin-top: 6px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.72);
+}
+
+.award-right{
+  text-align:right;
+}
+
+.award-logo{
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(0,0,0,0.55));
+  margin-left: auto;
+}
+
+.award-rating{
+  margin-top: 8px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 0 22px color-mix(in srgb, var(--tourn-color) 22%, transparent);
+}
+
+.award-rating-label{
+  margin-top: 6px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.58);
+}
+
+/* responsive */
+@media (max-width: 900px){
+  .tournament-hero{
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+  .tournament-hero-center{
+    justify-self: start;
+    justify-content: flex-start;
+  }
+  .gs-grid{
+    grid-template-columns: 1fr;
+  }
+  .ko-stage-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+
+  
+
+/* Небольшая подпись под гридом, как футер */
+
+.footer-note {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footer-note p {
+  margin: 0;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.footer-note code {
+  font-size: 11px;
+  color: #e5e7eb;
+}
+
+/* АДАПТИВ */
+
+@media (max-width: 960px) {
+  .frame {
+    padding-inline: 18px;
+  }
+
+  .seasons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .frame {
+    width: min(100% - 16px, 520px);
+    margin-top: 20px;
+    padding: 18px 14px 22px;
+  }
+
+  .seasons-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .season-tile {
+    padding-inline: 12px;
+  }
+}
+
+:root {
+  /* неоновый акцент навигации (тот же, что у FC26) */
+  --accent-color: #00F5D4;
+  --accent-soft: rgba(0, 245, 212, 0.22);
+}
+
+/* Чтобы заголовок + навигация шли колонкой */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;    /* центр по горизонтали */
+  text-align: center;     /* текст по центру */
+}
+
+
+/* NAV BAR под заголовком */
+.hub-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;           /* было меньше – делаем побольше зазоры */
+  margin-top: 0.75rem;
+}
+
+/* =========================
+   HEADER — CURRENT UCL CHAMPION STRIP (MANUAL)
+   ========================= */
+
+.champion-strip{
+  margin-top: 14px;     /* выше nav */
+  margin-bottom: 10px;  /* отступ до навигации */
+  display: flex;
+  justify-content: center;
+}
+
+.champion-pill{
+  position: relative;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 12px 16px;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(56,189,248,0.22), transparent 55%),
+    radial-gradient(circle at 82% 35%, rgba(124,58,237,0.22), transparent 58%),
+    linear-gradient(135deg, rgba(6,10,18,0.78), rgba(6,10,18,0.56));
+
+  border: 1px solid rgba(124,58,237,0.34);
+
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.65),
+    0 0 32px rgba(124,58,237,0.22),
+    0 0 70px rgba(56,189,248,0.18);
+
+  backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  animation: championGlowPulse 2.8s ease-in-out infinite;
+}
+
+/* яркий “UCL CHAMPION” с глитчем */
+.champion-tag{
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.24rem;
+  text-transform: uppercase;
+
+  color: rgba(8,10,14,0.92);
+  background: linear-gradient(90deg, rgba(250,204,21,0.98), rgba(255,176,0,0.98));
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.65),
+    0 0 28px rgba(250,204,21,0.22);
+
+  isolation: isolate;
+}
+
+.champion-tag::before,
+.champion-tag::after{
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+
+.champion-tag::before{
+  transform: translate(1px, -1px);
+  color: rgba(56,189,248,0.85);
+  clip-path: inset(0 0 55% 0);
+  animation: championGlitchA 2.6s infinite linear;
+}
+
+.champion-tag::after{
+  transform: translate(-1px, 1px);
+  color: rgba(124,58,237,0.85);
+  clip-path: inset(55% 0 0 0);
+  animation: championGlitchB 3.1s infinite linear;
+}
+
+.champion-main{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+
+  color: rgba(249,250,251,0.94);
+}
+
+.champion-sep{
+  color: rgba(229,231,235,0.40);
+}
+
+.champion-team{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.champion-logo{
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: block;
+  filter:
+    drop-shadow(0 0 12px rgba(56,189,248,0.18))
+    drop-shadow(0 0 18px rgba(124,58,237,0.16));
+}
+
+.champion-date{
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+
+  color: rgba(229,231,235,0.86);
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148,163,184,0.16);
+}
+
+/* scanline по плашке */
+.champion-scan{
+  position: absolute;
+  inset: -40% -10%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.08),
+    transparent
+  );
+  transform: rotate(8deg) translateX(-60%);
+  animation: championScan 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes championGlowPulse{
+  0%   { filter: brightness(1.00); }
+  50%  { filter: brightness(1.08); }
+  100% { filter: brightness(1.00); }
+}
+
+@keyframes championScan{
+  0%   { transform: rotate(8deg) translateX(-70%); opacity: 0.0; }
+  25%  { opacity: 0.55; }
+  55%  { opacity: 0.35; }
+  100% { transform: rotate(8deg) translateX(70%); opacity: 0.0; }
+}
+
+@keyframes championGlitchA{
+  0%, 92%, 100% { transform: translate(1px, -1px); }
+  93% { transform: translate(3px, -2px); }
+  94% { transform: translate(0px, 0px); }
+  95% { transform: translate(2px, -1px); }
+}
+
+@keyframes championGlitchB{
+  0%, 90%, 100% { transform: translate(-1px, 1px); }
+  91% { transform: translate(-3px, 2px); }
+  92% { transform: translate(0px, 0px); }
+  93% { transform: translate(-2px, 1px); }
+}
+
+/* мобилка: чуть компактнее */
+@media (max-width: 640px){
+  .champion-pill{
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .champion-date{
+    display: none; /* чтобы не теснило */
+  }
+}
+
+
+
+/* placeholder-экран под гридами */
+.view-placeholder {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-placeholder-inner {
+  position: relative;
+  padding: 1.4rem 1.6rem;
+  border-radius: 1.5rem;
+
+  background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(15,23,42,0.94));
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 1),
+    0 0 0 1px rgba(148, 163, 184, 0.35);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.view-placeholder-title {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.9);
+  margin-bottom: 0.35rem;
+}
+
+.view-placeholder-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.view-placeholder-main-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(248, 250, 252, 0.96);
+}
+
+.view-placeholder-main-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.view-placeholder-note {
+  margin-top: 0.65rem;
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.9);
+  max-width: 340px;
+}
+
+.view-placeholder-glow {
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.1), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.12), transparent 65%);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* утилита для скрытия */
+.is-hidden {
+  display: none !important;
+}
+
+/* === NAV BUTTONS (эффект как в Uiverse by biswacpcode) === */
+
+.nav-button {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 30px;                    /* можно покрутить размер */
+  border: none;
+  background: none;
+  font-weight: 500;
+  font-family: "Orbitron", system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+
+  padding: 0.9rem 0;
+  position: relative;
+  cursor: pointer;
+}
+
+/* левая/правая линии */
+.nav-button::before {
+  margin-left: auto;
+}
+
+.nav-button::before,
+.nav-button::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #4C1D95;                /* можешь поменять на #f44336, как в оригинале */
+  display: block;
+  transition: width 0.5s;
+}
+
+/* hover – линии вырастают во всю ширину */
+.nav-button:hover::before,
+.nav-button:hover::after {
+  width: 100%;
+}
+
+/* активная вкладка – подсветим текст и оставим линии развернутыми */
+.nav-button.is-active {
+  color: #ffffff;
+}
+
+.nav-button.is-active::before,
+.nav-button.is-active::after {
+  width: 100%;
+}
+
+
+  /* =======================
+   ANDREY TROPHY PROFILE
+   ======================= */
+
+.andrey-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 0.5rem 0 3rem 0;
+}
+
+/* небольшой хедер, без гигантского имени */
+.andrey-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: "Orbitron", system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #9ca3af;
+  font-size: 0.7rem;
+}
+
+.andrey-meta-name {
+  color: #e5e7eb;
+}
+
+.andrey-meta-summary {
+  opacity: 0.85;
+}
+
+/* общий контейнер зоны */
+.trophy-zone {
+  padding: 0.9rem 1.3rem 1.4rem 1.3rem;
+  border-radius: 1.4rem;
+  background: rgba(15, 23, 42, 0.041);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+/* шапка зоны – цветовая полоска */
+/* шапка зоны – цветовая полоска */
+.trophy-zone-header {
+  display: flex;
+  justify-content: flex-start;  /* заголовок слева */
+  align-items: center;
+  position: relative;           /* чтобы можно было центрировать счётчик */
+  margin-bottom: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.95),
+    var(--zone-color, #64748b),
+    rgba(15, 23, 42, 0.95)
+  );
+}
+
+
+.trophy-zone-title {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+
+.trophy-zone-count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);  /* ровно по центру полоски */
+  
+
+  padding: 0.18rem 0.9rem;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  background: rgba(15, 23, 42, 0.92);
+  color: #e5e7eb;
+  box-shadow:
+    0 0 0 1px rgba(148, 163, 184, 0.5),
+    0 0 14px rgba(15, 23, 42, 0.9);
+}
+
+
+/* сетка трофеев внутри зоны */
+.trophy-zone-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 1.8rem;
+  justify-content: flex-start;
+}
+
+/* карточка отдельного трофея */
+.trophy-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  position: relative; /* добавили */
+  transition: transform 0.3s ease; 
+}
+
+
+.trophy-card-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.8));
+}
+
+/* кирпичик FIFA / FC */
+.trophy-card-season {
+  min-width: 100px;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #0f172a;
+  background: rgba(148, 163, 184, 0.9); /* реальный цвет подхватывается из JS */
+}
+
+/* Рамка для стриков (Leipzig x2 и любые другие streakId) */
+
+.trophy-card-streak-frame {
+  position: absolute;
+  inset: -0.1px;               /* чуть за границы карточки */
+  border-radius: 0.5rem;
+
+  border: 1px solid #00aeff; /* синий как у STREAK x2 */
+  box-shadow:
+    0 0 18px rgb(0, 195, 255),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+
+  pointer-events: none;
+  z-index: -1;               /* строго под логотипом и кирпичом */
+}
+
+/* красная рамка для стриков 4+ */
+.trophy-card-streak-frame--danger {
+  border-color: #ef4444;
+  box-shadow:
+    0 0 18px rgba(239, 68, 68, 0.75),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+
+/* ЛЕГЕНДАРНЫЙ ТРОФЕЙ (по мотивам .btn из Uiverse) */
+
+.trophy-card--legend {
+  overflow: visible; /* или вообще убери строку overflow */
+  border-radius: 1.4rem;
+  position: relative;
+}
+
+/* тонкая переливающаяся РАМКА по контуру */
+.trophy-card--legend::before {
+  content: "";
+  position: absolute;
+  inset: 0;               /* по размеру карточки */
+  border-radius: inherit;
+  padding: 4px;           /* толщина рамки */
+
+  /* трюк как у твоего .btn: внутренняя заливка + градиентная рамка */
+  background-image:
+    linear-gradient(#020617, #020617),   /* центр – тёмный фон */
+    linear-gradient(
+      137.48deg,
+      #ffffff 10%,
+      #1100ff 45%,
+      #ffffff 67%,
+      #ffe600 87%
+    );                                   /* рамка – градиент */
+
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  background-size: 150% 150%;
+  animation: legend-gradient 2.5s ease infinite;
+
+  z-index: -2;
+}
+
+/* звёздочки ВНУТРИ, но очень деликатно на заднем фоне */
+.trophy-card--legend::after {
+  content: "";
+  position: absolute;
+  inset: 4px;            /* внутри рамки, не перекрывает её */
+  border-radius: inherit;
+
+  background:
+    radial-gradient(#fbff00 2px, transparent 1%) 0 0 / 60px 60px,
+    radial-gradient(#ff0000 2px, transparent 1%) 30px 30px / 60px 60px;
+  opacity: 1;         /* очень мягко */
+  mix-blend-mode: screen;
+  animation: legend-stars 1s linear infinite;
+
+  z-index: -1;
+}
+
+
+/* лёгкий zoom при hover только для легендарной карты */
+.trophy-card--legend:hover {
+  transform: scale(1.08);
+}
+
+/* анимация градиента */
+@keyframes legend-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* плавное "движение" звёзд */
+@keyframes legend-stars {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-80px);
+  }
+}
+
+
+/* подсветка серии – ОКОНТУРЕННЫЙ ГЛОУ, НЕ МЕНЯЕТ РАЗМЕР КАРТОЧКИ */
+.trophy-card--streak::before {
+  content: "";
+  position: absolute;
+  inset: -4px; /* чуть шире карточки, но не влияет на layout */
+  border-radius: 1rem;
+
+  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 70%);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.35),
+    0 16px 30px rgba(15, 23, 42, 0.9);
+
+  pointer-events: none;
+  z-index: -1; /* уходит под карточку */
+}
+
+.trophy-card-streak-badge {
+  position: absolute;
+  top: -0.55rem;
+  left: 0.25rem;
+  right: 0.25rem;
+
+  padding: 0.12rem 0;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+
+  background: rgba(0, 195, 255, 0.96);
+  color: #0f172a;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.95),
+    0 0 12px rgba(56, 189, 248, 0.9);
+}
+
+/* красная плашка для стриков 4+ */
+.trophy-card-streak-badge--danger {
+  background: #ef4444;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.95),
+    0 0 12px rgba(239, 68, 68, 0.9);
+}
+
+/* ========================
+   LC DRAFT (Champions League)
+   ======================== */
+
+   .draft-layout {
+    margin-top: 2.5rem;
+  }
+  
+  .draft-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .draft-title {
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.22rem;
+    text-transform: uppercase;
+    color: #f9fafb;
+  }
+  
+  .draft-subtitle {
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: rgba(249, 250, 251, 0.55);
+  }
+  
+  /* Плитки паков */
+  
+  .draft-pack-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .draft-pack-grid--shuffling {
+    animation: draft-pack-shuffle 0.9s ease-in-out infinite alternate;
+  }
+  
+  @keyframes draft-pack-shuffle {
+    from {
+      transform: translateX(-4px);
+    }
+    to {
+      transform: translateX(4px);
+    }
+  }
+  
+  .draft-pack-tile {
+    position: relative;
+    border-radius: 1.5rem;
+    padding: 0.4rem;
+    background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), transparent 55%);
+    box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.15), 0 22px 40px rgba(15, 23, 42, 0.9);
+    cursor: default;
+  }
+  
+  .draft-pack-inner {
+    border-radius: 1.2rem;
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(30, 64, 175, 0.45));
+  }
+  
+  .draft-pack-label {
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18rem;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    margin-bottom: 0.25rem;
+  }
+  
+  .draft-pack-description {
+    font-size: 0.7rem;
+    color: rgba(209, 213, 219, 0.75);
+  }
+  
+  /* редкость – разные обводки/свечения */
+  
+  .draft-pack-tile--bronze {
+    box-shadow: 0 0 0 1px rgba(180, 83, 9, 0.35), 0 18px 35px rgba(15, 23, 42, 0.85);
+  }
+  
+  .draft-pack-tile--silver {
+    box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.65), 0 18px 35px rgba(15, 23, 42, 0.9);
+  }
+  
+  .draft-pack-tile--gold {
+    box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.65), 0 20px 38px rgba(15, 23, 42, 0.95);
+  }
+  
+  .draft-pack-tile--legendary {
+    box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.75), 0 0 32px rgba(168, 85, 247, 0.55);
+  }
+  
+  .draft-pack-tile--special {
+    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.9), 0 0 38px rgba(56, 189, 248, 0.75);
+  }
+  
+  .draft-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .draft-actions--center {
+    justify-content: center;
+  }
+  
+  .draft-primary-btn {
+    padding: 0.6rem 1.8rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.16rem;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #22c55e, #a3e635);
+    color: #020617;
+    box-shadow: 0 16px 30px rgba(34, 197, 94, 0.45);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+  }
+  
+  .draft-primary-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 22px 40px rgba(34, 197, 94, 0.55);
+    filter: brightness(1.06);
+  }
+  
+  .draft-primary-btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  
+  .draft-primary-btn--large {
+    padding-inline: 2.6rem;
+  }
+  
+  /* countdown */
+  
+  .draft-countdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 220px;
+  }
+  
+  .draft-countdown-label {
+    font-size: 0.8rem;
+    color: rgba(209, 213, 219, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.16rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .draft-countdown-number {
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-size: 3rem;
+    color: #f9fafb;
+  }
+  
+  /* reveal команд */
+  
+  .draft-team-reveal-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    margin-bottom: 1.4rem;
+  }
+  
+  .draft-team-card {
+    width: 96px;
+    height: 120px;
+    border-radius: 1rem;
+    background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), rgba(15, 23, 42, 0.98));
+    box-shadow: 0 16px 28px rgba(15, 23, 42, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+  
+  .draft-team-card--hidden {
+    opacity: 0;
+  }
+  
+  .draft-team-card:not(.draft-team-card--hidden) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .draft-team-logo-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 1rem;
+    background: radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.14), rgba(15, 23, 42, 0.98));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .draft-team-logo {
+    max-width: 64px;
+    max-height: 64px;
+  }
+  
+  /* плей-офф */
+  
+  .draft-playoff-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  .draft-playoff-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .draft-semi-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  
+  .draft-team-card--semi {
+    cursor: pointer;
+  }
+  
+  .draft-team-card--semi:hover:not(.draft-team-card--revealed) {
+    box-shadow: 0 22px 42px rgba(59, 130, 246, 0.65);
+    filter: brightness(1.08);
+  }
+  
+  .draft-team-card--winner {
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.9), 0 0 32px rgba(34, 197, 94, 0.55);
+  }
+  
+  .draft-team-card--loser {
+    filter: grayscale(0.9) brightness(0.55);
+    opacity: 0.7;
+  }
+  
+  /* финал */
+  
+  .draft-playoff-final {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .draft-final-card {
+    width: 150px;
+    height: 170px;
+    border-radius: 1.6rem;
+    background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), rgba(15, 23, 42, 0.98));
+    box-shadow: 0 22px 40px rgba(15, 23, 42, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    padding: 0.8rem;
+  }
+  
+  .draft-final-card--locked {
+    opacity: 0.6;
+    cursor: default;
+  }
+  
+  .draft-final-label {
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18rem;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    margin-bottom: 0.35rem;
+  }
+  
+  .draft-final-status {
+    font-size: 0.7rem;
+    color: rgba(209, 213, 219, 0.75);
+  }
+  
+  /* победитель */
+  
+  .draft-winner-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .draft-winner-label {
+    font-family: "Orbitron", system-ui, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    color: #facc15;
+  }
+  
+  .draft-winner-card {
+    padding: 0.8rem 1.4rem;
+    border-radius: 1.6rem;
+    background: radial-gradient(circle at 0 0, rgba(250, 204, 21, 0.25), rgba(15, 23, 42, 0.98));
+    box-shadow: 0 24px 46px rgba(15, 23, 42, 0.98), 0 0 40px rgba(250, 204, 21, 0.5);
+  }
+  
+  .draft-team-logo-wrapper--winner {
+    width: 80px;
+    height: 80px;
+  }
+  
+
+
+/* ========================
+   LC DRAFT — PACKS (STAGE 1)
+   ======================== */
+
+.draft-pack-grid--stage1 {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.4rem;
+}
+
+.draft-pack-tile--image {
+  --pack-image: none;
+
+  position: relative;
+  height: 320px;
+  border-radius: 1.8rem;
+  overflow: hidden;
+
+  background: var(--pack-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  box-shadow:
+    0 32px 70px rgba(0, 0, 0, 0.92),
+    0 0 0 1px rgba(148, 163, 184, 0.22);
+
+  cursor: pointer;
+
+  transform: translateY(0);
+  transition:
+    transform 0.22s cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 0.22s cubic-bezier(0.19, 1, 0.22, 1),
+    filter 0.22s ease;
+}
+
+.draft-pack-tile--image:hover {
+  transform: translateY(-6px);
+  filter: brightness(0.92) saturate(1.06);
+
+  box-shadow:
+    0 46px 90px rgba(0, 0, 0, 0.96),
+    0 0 0 1px rgba(168, 85, 247, 0.38),
+    0 0 30px rgba(168, 85, 247, 0.18);
+}
+
+.draft-pack-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.10), transparent 58%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.02), rgba(2, 6, 23, 0.55));
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.05rem;
+}
+
+.draft-pack-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.draft-pack-meta-title {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(249, 250, 251, 0.92);
+}
+
+.draft-pack-meta-desc {
+  font-size: 0.88rem;
+  color: rgba(229, 231, 235, 0.65);
+}
+
+.draft-pack-meta-stats {
+  margin-top: 0.45rem;
+  display: flex;
+  gap: 0.85rem;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14rem;
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.68);
+}
+
+.draft-actions--center {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.9rem;
+}
+
+.draft-primary-btn--stage1 {
+  padding: 0.85rem 2.6rem;
+  font-size: 0.95rem;
+}
+
+/* ========================
+   LC DRAFT — PACK INFO PAGE
+   ======================== */
+
+.draft-pack-info-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.1rem;
+}
+
+.draft-pack-info-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.draft-pack-info-thumb {
+  width: 92px;
+  height: 92px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.72);
+  box-shadow:
+    0 18px 42px rgba(0,0,0,0.70),
+    0 0 0 1px rgba(168, 85, 247, 0.18);
+}
+
+.draft-pack-info-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.draft-pack-info-title {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+  color: rgba(249, 250, 251, 0.92);
+  margin-bottom: 0.15rem;
+}
+
+.draft-pack-info-sub {
+  font-size: 0.9rem;
+  color: rgba(229, 231, 235, 0.65);
+}
+
+.draft-pack-info-grid {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+}
+
+.draft-team-tile {
+  height: 170px;
+  border-radius: 16px;
+  padding: 16px 14px 12px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background:
+    radial-gradient(circle at 30% 18%, rgba(168, 85, 247, 0.16), rgba(15, 23, 42, 0.98) 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 22px 46px rgba(0,0,0,0.75),
+    0 0 0 1px rgba(168, 85, 247, 0.18);
+
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.draft-team-tile:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.04);
+
+  box-shadow:
+    0 28px 58px rgba(0,0,0,0.80),
+    0 0 0 1px rgba(168, 85, 247, 0.38),
+    0 0 26px rgba(168, 85, 247, 0.22);
+}
+
+.draft-team-tile-logo {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.draft-team-tile-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 14px rgba(168, 85, 247, 0.14));
+}
+
+.draft-team-tile-name {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.96rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.82);
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* ========================
+   LC DRAFT — ROULETTE (CASE OPENING)
+   ======================== */
+
+.lc-roulette {
+  margin-top: 1.25rem;
+}
+
+.lc-roulette-viewport {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 22px;
+  overflow: hidden;
+
+  background: rgba(10, 16, 28, 0.72);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.80),
+    0 0 0 1px rgba(168, 85, 247, 0.18);
+}
+
+/* затемнение по бокам */
+.lc-roulette-viewport::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.72), rgba(0,0,0,0.00) 18%, rgba(0,0,0,0.00) 82%, rgba(0,0,0,0.72));
+  z-index: 3;
+}
+
+/* светлая зона победителя по центру */
+.lc-roulette-viewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 240px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255,255,255,0.10), rgba(255,255,255,0.00) 62%),
+    linear-gradient(180deg, rgba(168, 85, 247, 0.08), rgba(168, 85, 247, 0.02));
+  z-index: 2;
+}
+
+.lc-roulette-marker {
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.82);
+  box-shadow:
+    0 0 12px rgba(168, 85, 247, 0.40),
+    0 0 28px rgba(168, 85, 247, 0.22);
+  z-index: 4;
+  border-radius: 999px;
+}
+
+.lc-roulette-track {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+  display: flex;
+  gap: 18px;
+  padding: 0 40px;
+  will-change: transform;
+  z-index: 1;
+}
+
+.lc-roulette-card {
+  width: 220px;
+  height: 150px;
+  border-radius: 18px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background:
+    radial-gradient(circle at 30% 18%, rgba(168, 85, 247, 0.16), rgba(15, 23, 42, 0.98) 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 22px 46px rgba(0,0,0,0.75),
+    0 0 0 1px rgba(168, 85, 247, 0.16);
+}
+
+.lc-roulette-card-logo {
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lc-roulette-card-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 14px rgba(168, 85, 247, 0.14));
+}
+
+.lc-roulette-card-name {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.70rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.78);
+  text-align: center;
+  line-height: 1.1;
+  padding: 0 10px;
+}
+
+.lc-roulette-result {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.lc-roulette-winner {
+  width: min(540px, 96vw);
+  height: 190px;
+  border-radius: 22px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.22), rgba(15, 23, 42, 0.98) 65%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.80),
+    0 0 0 1px rgba(168, 85, 247, 0.30),
+    0 0 40px rgba(168, 85, 247, 0.18);
+}
+
+.lc-roulette-winner-logo {
+  width: 120px;
+  height: 120px;
+}
+
+.lc-roulette-winner-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.lc-roulette-winner-label {
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.68);
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+
+.lc-roulette-winner-name {
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(249, 250, 251, 0.92);
+  font-size: 1.1rem;
+}
+
+/* =========================
+   LC DRAFT — EPIC PACK PICK
+   ========================= */
+
+#lc-draft-stage {
+  position: relative;
+  min-height: 420px;
+}
+
+/* прячем кнопки красиво */
+.draft-actions--hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* перемешивание сетки паков */
+.draft-pack-grid--shuffling {
+  pointer-events: none;
+  filter: saturate(1.05) brightness(0.98);
+  transition: filter 0.35s ease;
+}
+
+.draft-pack-grid--shuffling .draft-pack-tile--image {
+  animation: lcPackShuffle 0.72s ease-in-out infinite;
+  animation-delay: var(--sh-delay, 0ms);
+  transform: translate3d(var(--sh-dx, 0px), var(--sh-dy, 0px), 0) rotate(var(--sh-rot, 0deg));
+}
+
+@keyframes lcPackShuffle {
+  0%   { transform: translate3d(var(--sh-dx, 0px), var(--sh-dy, 0px), 0) rotate(var(--sh-rot, 0deg)); }
+  35%  { transform: translate3d(calc(var(--sh-dx, 0px) * -0.6), calc(var(--sh-dy, 0px) * 0.7), 0) rotate(calc(var(--sh-rot, 0deg) * -0.6)); }
+  70%  { transform: translate3d(calc(var(--sh-dx, 0px) * 0.35), calc(var(--sh-dy, 0px) * -0.45), 0) rotate(calc(var(--sh-rot, 0deg) * 0.35)); }
+  100% { transform: translate3d(var(--sh-dx, 0px), var(--sh-dy, 0px), 0) rotate(var(--sh-rot, 0deg)); }
+}
+
+/* уход сетки в темноту перед показом пака */
+.draft-pack-grid--fadeout {
+  opacity: 0.18;
+  filter: blur(1.2px) saturate(1.1) brightness(0.65);
+  transition: opacity 0.45s ease, filter 0.45s ease;
+}
+
+/* кино-оверлей */
+.draft-roll-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 50% 35%, rgba(168, 85, 247, 0.18), rgba(2, 6, 23, 0.86) 60%),
+    radial-gradient(circle at 50% 120%, rgba(59, 130, 246, 0.10), transparent 65%);
+
+  display: grid;
+  place-items: center;
+
+  opacity: 0;
+  animation: lcOverlayIn 0.35s ease forwards;
+}
+
+@keyframes lcOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* лёгкие скан-линии */
+.draft-roll-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.00) 0px,
+    rgba(255,255,255,0.00) 10px,
+    rgba(255,255,255,0.035) 11px,
+    rgba(255,255,255,0.00) 22px
+  );
+  opacity: 0.55;
+  transform: rotate(9deg);
+  animation: lcScan 1.05s linear infinite;
+}
+
+@keyframes lcScan {
+  from { transform: translateY(-18px) rotate(9deg); }
+  to   { transform: translateY(18px) rotate(9deg); }
+}
+
+/* виньетка по краям */
+.draft-roll-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.55) 78%),
+    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.10), transparent 55%);
+  opacity: 0.9;
+}
+
+.draft-roll-overlay-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 1.4rem 1.2rem;
+  width: min(520px, 92%);
+}
+
+.draft-roll-title {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(249, 250, 251, 0.92);
+}
+
+.draft-roll-sub {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  color: rgba(229, 231, 235, 0.62);
+}
+
+.draft-roll-bar {
+  margin: 1.05rem auto 0;
+  height: 10px;
+  width: min(420px, 88%);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.18);
+}
+
+.draft-roll-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.75), rgba(168, 85, 247, 0.85));
+  animation: lcBarFill 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lcBarFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.draft-roll-hint {
+  margin-top: 0.85rem;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.55);
+}
+
+/* фаза 2 — чуть темнее и “flash” */
+.draft-roll-overlay--phase2 {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(168, 85, 247, 0.24), rgba(2, 6, 23, 0.92) 60%),
+    radial-gradient(circle at 50% 120%, rgba(59, 130, 246, 0.12), transparent 65%);
+}
+
+.draft-roll-overlay--phase2 .draft-roll-title {
+  text-shadow: 0 0 18px rgba(168, 85, 247, 0.22);
+}
+
+/* reveal для выпавшего пака */
+.draft-pack-tile--chosen {
+  animation: lcChosenReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 65%;
+}
+
+@keyframes lcChosenReveal {
+  from {
+    transform: perspective(900px) rotateX(10deg) scale(0.86);
+    filter: brightness(0.75) saturate(1.05);
+  }
+  to {
+    transform: perspective(900px) rotateX(0deg) scale(1);
+    filter: brightness(1) saturate(1.08);
+  }
+}
+
+/* =========================
+   LC Draft — Dramatic Pack Elimination
+   ========================= */
+
+.draft-pack-tile--image {
+  transition: transform 0.45s ease, opacity 0.45s ease, filter 0.45s ease, box-shadow 0.45s ease;
+}
+
+/* Пак "выкидывается" */
+.draft-pack-tile--eliminate {
+  opacity: 0;
+  transform: translateY(14px) scale(0.86);
+  filter: blur(1.2px) brightness(0.65) saturate(0.9);
+  pointer-events: none;
+}
+
+/* Два финальных — чуть подсвечиваем, чтобы было напряжение */
+.draft-pack-tile--final {
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.35),
+    0 0 26px rgba(168, 85, 247, 0.22);
+  filter: brightness(1.05) saturate(1.12);
+}
+
+/* Финальные исчезают перед вспышкой */
+.draft-pack-tile--vanish {
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(2px) brightness(0.6);
+}
+
+/* Яркая вспышка */
+.draft-roll-flash {
+  position: absolute;
+  inset: -10px;
+  border-radius: 1.6rem;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,0.95), rgba(168, 85, 247, 0.65) 25%, rgba(0,0,0,0) 62%);
+  animation: draftFlash 0.42s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes draftFlash {
+  0%   { opacity: 0; transform: scale(0.98); }
+  35%  { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+
+/* FIX: убрать затемнение по краям при выборе пака */
+.draft-roll-overlay::after {
+  display: none !important; /* убираем виньетку, которая темнит края */
+}
+
+/* FIX: сам оверлей делаем почти прозрачным (оставляем атмосферу через ::before скан-линии) */
+.draft-roll-overlay {
+  background: transparent !important;
+}
+
+/* FIX: чтобы в фазе 2 паки не становились "невидимыми" */
+.draft-pack-grid--fadeout {
+  opacity: 0.65 !important; /* было слишком низко */
+  filter: blur(0.6px) saturate(1.06) brightness(0.92) !important;
+}
+
+
+/* ===========================
+   LC DRAFT — EPIC PACK REVEAL
+   =========================== */
+
+.lc-pack-reveal {
+  position: relative;
+  border-radius: 1.8rem;
+  min-height: 520px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(148,163,184,0.15), 0 28px 70px rgba(0,0,0,0.65);
+
+  /* Чистая тёмная база — без фиолетового “залива” */
+  background: linear-gradient(135deg, rgba(6,8,14,0.95), rgba(3,4,8,0.92));
+}
+
+/* Премиум-оверлей: лёгкая сетка + мягкий тон от цвета пака (очень аккуратно) */
+.lc-pack-reveal::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+
+  background:
+    radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--pack-tone) 16%, transparent), transparent 62%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 120px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 120px);
+
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+}
+
+
+.lc-pack-reveal-bg {
+  position: absolute;
+  inset: -35%;
+  z-index: 0;
+
+  background:
+    radial-gradient(circle at 30% 40%, color-mix(in srgb, var(--pack-tone) 55%, transparent), transparent 60%),
+    radial-gradient(circle at 72% 58%, color-mix(in srgb, var(--pack-tone) 32%, transparent), transparent 66%);
+
+  filter: blur(34px);
+  opacity: 0.34;
+  transform: rotate(-8deg);
+}
+
+
+.lc-pack-reveal-typewrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+
+  opacity: 1;
+  filter: none;
+  transition:
+    transform 900ms cubic-bezier(.2,.8,.2,1),
+    opacity 520ms ease,
+    filter 520ms ease;
+}
+
+
+.lc-pack-reveal-type {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 6.2vw, 6.6rem);
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--pack-tone) 55%, transparent);
+}
+
+.lc-pack-reveal.is-reveal .lc-pack-reveal-typewrap {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+
+.lc-pack-reveal-content {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.6rem;
+  padding: 6.2rem 2.2rem 2.2rem;
+  transition: opacity 450ms ease, transform 450ms ease;
+}
+
+.lc-pack-reveal-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lc-pack-reveal-pack {
+  width: min(520px, 92%);
+  aspect-ratio: 1 / 1.15;
+  border-radius: 1.6rem;
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%),
+              linear-gradient(145deg, rgba(15,23,42,0.92), rgba(30,64,175,0.20));
+  box-shadow: 0 0 0 1px rgba(148,163,184,0.14), 0 26px 70px rgba(0,0,0,0.55);
+  overflow: hidden;
+}
+
+.lc-pack-reveal-pack img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.02) contrast(1.02);
+}
+
+.lc-pack-reveal-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lc-pack-reveal-h1 {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  margin-bottom: 0.55rem;
+}
+
+.lc-pack-reveal-sub {
+  color: rgba(255,255,255,0.62);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+.lc-pack-reveal-meta {
+  display: flex;
+  gap: 0.85rem;
+  margin-bottom: 1.4rem;
+}
+
+.lc-pack-reveal-chip {
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.60);
+  box-shadow: 0 0 0 1px rgba(148,163,184,0.14);
+  backdrop-filter: blur(10px);
+  min-width: 120px;
+}
+
+.lc-pack-reveal-chip .k {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+}
+
+.lc-pack-reveal-chip .v {
+  font-family: "Orbitron", system-ui, sans-serif;
+  margin-top: 0.25rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.90);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--pack-tone) 45%, transparent);
+}
+
+.lc-pack-reveal-actions {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+/* ===== LC PACK REVEAL — OVERRIDE (EPIC RESULT SCREEN) ===== */
+
+/* Заголовок после печати уходит В ЦЕНТР ВВЕРХ (а не влево) */
+.lc-pack-reveal.is-reveal .lc-pack-reveal-typewrap{
+  left: 50% !important;
+  top: 2.2rem !important;
+  transform: translate(-50%, 0) scale(0.46) !important;
+}
+
+/* Чтобы контент не перекрывал заголовок */
+.lc-pack-reveal-content{
+  padding-top: 8.2rem !important;
+}
+
+.lc-pack-reveal-pack {
+  position: relative;
+  isolation: isolate;
+
+  width: min(520px, 92%);
+  aspect-ratio: 1 / 1.15;
+  border-radius: 1.6rem;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%),
+    linear-gradient(145deg, rgba(15,23,42,0.86), rgba(2,6,23,0.94));
+
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 26px 70px rgba(0,0,0,0.55);
+}
+
+/* Свечение снаружи (в цвет пака) */
+.lc-pack-reveal-pack::before{
+  content:"";
+  position:absolute;
+  inset:-18%;
+  z-index:-1;
+
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--pack-tone) 65%, transparent),
+    transparent 62%
+  );
+
+  filter: blur(22px);
+  opacity: 0.95;
+  animation: lcPackGlowPulse 2.8s ease-in-out infinite;
+}
+
+/* Второй “слой” свечения — чуть шире, медленнее, мягче */
+.lc-pack-reveal-pack::after{
+  content:"";
+  position:absolute;
+  inset:-28%;
+  z-index:-2;
+
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--pack-tone) 38%, transparent),
+    transparent 70%
+  );
+
+  filter: blur(36px);
+  opacity: 0.70;
+  animation: lcPackGlowPulse2 4.2s ease-in-out infinite;
+}
+
+@keyframes lcPackGlowPulse{
+  0%   { transform: scale(0.96); opacity: 0.75; }
+  50%  { transform: scale(1.03); opacity: 1.00; }
+  100% { transform: scale(0.96); opacity: 0.75; }
+}
+
+@keyframes lcPackGlowPulse2{
+  0%   { transform: scale(0.98); opacity: 0.45; }
+  50%  { transform: scale(1.06); opacity: 0.80; }
+  100% { transform: scale(0.98); opacity: 0.45; }
+}
+
+
+/* Правая часть — крупнее и “как статистика” */
+.lc-pack-reveal-h1{
+  font-size: clamp(2.9rem, 4vw, 4.2rem) !important;
+  letter-spacing: 0.24em !important;
+  margin-bottom: 0.85rem !important;
+}
+
+.lc-pack-reveal-sub{
+  font-size: 1.25rem !important;
+  letter-spacing: 0.22em !important;
+  color: rgba(229,231,235,0.75) !important;
+  margin-bottom: 1.8rem !important;
+}
+
+/* Чипы-статы крупнее */
+.lc-pack-reveal-chip{
+  min-width: 210px !important;
+  padding: 1.05rem 1.25rem !important;
+  border-radius: 1.25rem !important;
+}
+
+.lc-pack-reveal-chip .k{
+  font-size: 0.78rem !important;
+  letter-spacing: 0.24em !important;
+}
+
+.lc-pack-reveal-chip .v{
+  font-size: 2.15rem !important;
+  letter-spacing: 0.16em !important;
+}
+
+/* Звезда рядом с рейтингом */
+.lc-pack-star{
+  margin-left: 0.35rem;
+  color: color-mix(in srgb, var(--pack-tone) 75%, #fff);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--pack-tone) 55%, transparent);
+}
+
+.lc-pack-open-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(460px, 100%);
+  padding: 1.1rem 1.6rem;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.95);
+
+  /* fallback */
+  background: var(--pack-tone);
+  /* нормальный премиум-градиент в цвет пака */
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--pack-tone) 78%, #ffffff 22%),
+    color-mix(in srgb, var(--pack-tone) 88%, #000000 12%)
+  );
+
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.18),
+    0 18px 60px rgba(0,0,0,0.48),
+    0 0 70px color-mix(in srgb, var(--pack-tone) 55%, transparent);
+
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+
+.lc-pack-open-btn:hover{
+  transform: translateY(-1px) scale(1.03);
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.18),
+    0 20px 70px rgba(0,0,0,0.52),
+    0 0 92px color-mix(in srgb, var(--pack-tone) 66%, transparent);
+}
+
+.lc-pack-open-btn:active{
+  transform: translateY(0) scale(1.01);
+  filter: brightness(1.02);
+}
+
+/* ========================
+   LC DRAFT — ROULETTE (THEMED by --pack-tone)
+   ======================== */
+
+.lc-roulette-shell{
+  border-radius: 26px;
+  padding: 18px 18px 22px;
+  background: linear-gradient(135deg, rgba(6,8,14,0.92), rgba(2,6,23,0.88));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 30px 80px rgba(0,0,0,0.72);
+}
+
+/* Хедер */
+.draft-roulette-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom: 14px;
+}
+
+.draft-roulette-title{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.92);
+}
+
+/* BACK в тему пака (вместо кислотно-зелёного) */
+.lc-roulette-shell .draft-primary-btn{
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--pack-tone) 75%, #ffffff 25%),
+    color-mix(in srgb, var(--pack-tone) 88%, #000000 12%)
+  );
+  color: rgba(8,10,14,0.92);
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.85),
+    0 0 22px color-mix(in srgb, var(--pack-tone) 55%, transparent);
+}
+
+.lc-roulette-shell .draft-primary-btn:hover{
+  filter: brightness(1.06);
+}
+
+/* Вьюпорт рулетки — чистый премиум + акцент от пака */
+.lc-roulette-viewport{
+  background: rgba(10, 16, 28, 0.70) !important;
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.80),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 28%, transparent) !important;
+}
+
+/* Зона победителя — уже и аккуратнее (чтобы не было “грязной вертикальной плашки”) */
+.lc-roulette-viewport::after{
+  width: 170px !important;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255,255,255,0.10), rgba(255,255,255,0.00) 62%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--pack-tone) 18%, transparent),
+      color-mix(in srgb, var(--pack-tone) 6%, transparent)
+    ) !important;
+}
+
+/* Маркер — не просто линия, а “прицел” */
+.lc-roulette-marker{
+  background: rgba(255,255,255,0.86) !important;
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--pack-tone) 55%, transparent),
+    0 0 34px color-mix(in srgb, var(--pack-tone) 38%, transparent) !important;
+}
+
+/* Небольшие стрелки у маркера (FC-вайб) */
+.lc-roulette-marker::before,
+.lc-roulette-marker::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:0; height:0;
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--pack-tone) 55%, transparent));
+  opacity: 0.9;
+}
+
+.lc-roulette-marker::before{
+  top:-10px;
+  border-bottom:12px solid rgba(255,255,255,0.82);
+}
+.lc-roulette-marker::after{
+  bottom:-10px;
+  border-top:12px solid rgba(255,255,255,0.82);
+}
+
+/* Карточки — тонкий акцент по теме пака (вместо постоянного фиолета) */
+.lc-roulette-card{
+  background:
+    radial-gradient(circle at 30% 18%, color-mix(in srgb, var(--pack-tone) 22%, transparent), rgba(15, 23, 42, 0.98) 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00)) !important;
+
+  box-shadow:
+    0 22px 46px rgba(0,0,0,0.75),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 22%, transparent) !important;
+}
+
+/* ========================
+   LC DRAFT — ROULETTE THEME (by --pack-tone)
+   ======================== */
+
+.lc-roulette-shell{
+  border-radius: 26px;
+  padding: 18px 18px 22px;
+  background: linear-gradient(135deg, rgba(6,8,14,0.94), rgba(2,6,23,0.90));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 32px 86px rgba(0,0,0,0.74);
+}
+
+.lc-roulette-shell .draft-roulette-head{
+  justify-content: flex-start;
+  margin-bottom: 12px;
+}
+
+.lc-roulette-shell .draft-roulette-title{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.92);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--pack-tone) 45%, transparent);
+}
+
+/* Вьюпорт: обводка и свечение — насыщенно в цвет пака */
+.lc-roulette-shell .lc-roulette-viewport{
+  background: rgba(10, 16, 28, 0.72);
+box-shadow:
+  0 30px 70px rgba(0,0,0,0.82),
+  0 0 0 1px color-mix(in srgb, var(--pack-tone) 78%, rgba(255,255,255,0.08)),
+  0 0 38px color-mix(in srgb, var(--pack-tone) 44%, transparent),
+  0 0 120px color-mix(in srgb, var(--pack-tone) 20%, transparent);
+
+}
+
+/* Центр: уже и чище, без грязной широкой плашки */
+.lc-roulette-shell .lc-roulette-viewport::after{
+  width: 180px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255,255,255,0.12), rgba(255,255,255,0.00) 62%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--pack-tone) 22%, transparent),
+      color-mix(in srgb, var(--pack-tone) 8%, transparent)
+    );
+}
+
+/* Маркер: ярче и в цвет пака */
+.lc-roulette-shell .lc-roulette-marker{
+  background: rgba(255,255,255,0.88);
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--pack-tone) 72%, transparent),
+    0 0 44px color-mix(in srgb, var(--pack-tone) 42%, transparent);
+}
+
+/* Карточки: акцент по теме пака */
+.lc-roulette-shell .lc-roulette-card{
+  background:
+    radial-gradient(circle at 30% 18%,
+      color-mix(in srgb, var(--pack-tone) 28%, transparent),
+      rgba(15, 23, 42, 0.98) 60%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 22px 46px rgba(0,0,0,0.78),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 40%, transparent);
+}
+
+.lc-roulette-shell .lc-roulette-card-logo img{
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.60))
+    drop-shadow(0 0 18px color-mix(in srgb, var(--pack-tone) 34%, transparent));
+}
+
+/* ========================
+   WINNER CARD (structured)
+   ======================== */
+
+.lc-roulette-shell .lc-roulette-result{
+  margin-top: 16px;
+}
+
+.lc-roulette-shell .lc-roulette-winner{
+  width: min(760px, 96vw);
+  border-radius: 22px;
+  overflow: hidden;
+  padding: 18px 20px;
+
+  background:
+    radial-gradient(circle at 18% 32%,
+      color-mix(in srgb, var(--pack-tone) 26%, transparent),
+      rgba(15, 23, 42, 0.98) 64%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 32px 86px rgba(0,0,0,0.82),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 62%, transparent),
+    0 0 90px color-mix(in srgb, var(--pack-tone) 22%, transparent);
+}
+
+.lc-roulette-winner-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.lc-roulette-winner-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.92);
+  background: color-mix(in srgb, var(--pack-tone) 22%, rgba(255,255,255,0.06));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 55%, transparent),
+    0 0 26px color-mix(in srgb, var(--pack-tone) 28%, transparent);
+}
+
+.lc-roulette-winner-pack{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.72);
+}
+
+.lc-roulette-winner-main{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lc-roulette-winner-logo{
+  width: 92px;
+  height: 92px;
+  flex: 0 0 auto;
+}
+
+.lc-roulette-winner-logo img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter:
+    drop-shadow(0 0 12px rgba(0,0,0,0.65))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--pack-tone) 34%, transparent));
+}
+
+.lc-roulette-winner-info{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.lc-roulette-winner-name{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.28rem;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.94);
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lc-roulette-winner-sub{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.20rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.62);
+}
+
+/* ========================
+   LC DRAFT — ROULETTE SHELL (STRONG PACK GLOW)
+   ======================== */
+
+.lc-roulette-shell{
+  position: relative;           /* нужно для ::before/::after */
+  overflow: hidden;             /* рамка не вылезает за скругление */
+  border-radius: 26px;
+
+  /* Яркий внешний glow + более цветная обводка */
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 70%, rgba(255,255,255,0.10)),
+    0 0 34px color-mix(in srgb, var(--pack-tone) 42%, transparent),
+    0 0 110px color-mix(in srgb, var(--pack-tone) 22%, transparent),
+    0 32px 86px rgba(0,0,0,0.74);
+}
+
+/* Неоновая “рамка” (внутренняя) */
+.lc-roulette-shell::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events:none;
+  z-index: 1;
+
+  /* градиентный контур: ярче по углам, как в FC */
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--pack-tone) 55%, transparent),
+      transparent 35%,
+      transparent 65%,
+      color-mix(in srgb, var(--pack-tone) 40%, transparent)
+    );
+
+  /* маска, чтобы это стало именно рамкой (а не заливкой) */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  padding: 2px; /* толщина рамки */
+  opacity: 0.95;
+}
+
+/* Вторая “аура” — мягкий пульс вокруг контейнера */
+.lc-roulette-shell::after{
+  content:"";
+  position:absolute;
+  inset: -22%;
+  pointer-events:none;
+  z-index: 0;
+
+  background: radial-gradient(circle at 50% 35%,
+    color-mix(in srgb, var(--pack-tone) 55%, transparent),
+    transparent 62%
+  );
+
+  filter: blur(34px);
+  opacity: 0.55;
+  animation: lcShellPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes lcShellPulse{
+  0%   { transform: scale(0.98); opacity: 0.42; }
+  50%  { transform: scale(1.04); opacity: 0.72; }
+  100% { transform: scale(0.98); opacity: 0.42; }
+}
+
+/* Важное: контент должен быть над рамкой */
+.lc-roulette-shell > *{
+  position: relative;
+  z-index: 2;
+}
+
+/* ========================
+   LC DRAFT — ROULETTE CARD SCALE (SAFE OVERRIDE)
+   ======================== */
+
+.lc-roulette-shell{
+  /* крути эти цифры как “ручку размера” */
+  --roulette-card-w: 270px;
+  --roulette-card-h: 182px;
+  --roulette-gap: 22px;
+  --roulette-logo: 108px;
+}
+
+/* окно рулетки чуть выше, чтобы карточки дышали */
+.lc-roulette-shell .lc-roulette-viewport{
+  height: 280px;
+}
+
+/* шаг между карточками (учтётся в pitch автоматически) */
+.lc-roulette-shell .lc-roulette-track{
+  gap: var(--roulette-gap);
+  padding: 0 44px;
+}
+
+.lc-roulette-shell .lc-roulette-card{
+  width: var(--roulette-card-w);
+  height: var(--roulette-card-h);
+  border-radius: 20px;
+  gap: 12px;
+}
+
+.lc-roulette-shell .lc-roulette-card-logo{
+  width: var(--roulette-logo);
+  height: var(--roulette-logo);
+}
+
+.lc-roulette-shell .lc-roulette-card-name{
+  font-size: 0.78rem;
+  letter-spacing: 0.20rem;
+}
+
+/* чуть аккуратнее на мобильных, чтобы не разъехалось */
+@media (max-width: 640px){
+  .lc-roulette-shell{
+    --roulette-card-w: 280px;
+    --roulette-card-h: 190px;
+    --roulette-gap: 24px;
+    --roulette-logo: 96px;
+  }
+
+  .lc-roulette-shell .lc-roulette-viewport{
+    height: 260px;
+  }
+}
+
+/* ========================
+   LC DRAFT — LUCKY TIME
+   ======================== */
+
+.lc-roulette-result-row{
+  display: grid;
+  grid-template-columns: 240px minmax(540px, 760px) 240px;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.lc-lucky-slot,
+.lc-action-slot{
+  width: 240px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* адаптив: складываемся в колонку */
+@media (max-width: 980px){
+  .lc-roulette-result-row{
+    grid-template-columns: 1fr;
+  }
+  .lc-lucky-slot,
+  .lc-action-slot{
+    width: 100%;
+  }
+  .lc-roulette-shell .lc-roulette-winner{
+    width: 100%;
+  }
+}
+
+
+.lc-lucky-slot{
+  width: 240px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lc-lucky-btn{
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 14px 16px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.92);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--pack-tone) 55%, rgba(255,255,255,0.10)),
+    rgba(10,16,28,0.78)
+  );
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 60%, transparent),
+    0 0 28px color-mix(in srgb, var(--pack-tone) 35%, transparent);
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.lc-lucky-btn:hover{
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.06);
+}
+
+.lc-lucky-panel{
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  padding: 10px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--pack-tone) 22%, transparent), rgba(15,23,42,0.95) 62%),
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0));
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 52%, transparent),
+    0 0 44px color-mix(in srgb, var(--pack-tone) 22%, transparent);
+}
+
+.lc-lucky-indicator{
+  position:absolute;
+  left: 8px;
+  right: 8px;
+  top: 10px;
+  border-radius: 14px;
+
+  background: color-mix(in srgb, var(--pack-tone) 24%, rgba(255,255,255,0.06));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 45%, transparent),
+    0 0 26px color-mix(in srgb, var(--pack-tone) 24%, transparent);
+
+  transform: translateY(0);
+  transition: transform 120ms linear;
+  pointer-events:none;
+}
+
+.lc-lucky-item{
+  height: 46px;
+  border-radius: 14px;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 0 12px;
+  position: relative;
+  z-index: 2;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.86);
+}
+
+.lc-lucky-item.is-active{
+  color: rgba(255,255,255,0.96);
+}
+
+.lc-lucky-ic{
+  width: 18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.lc-lucky-ic-ok{ color: rgba(34,197,94,0.95); }
+.lc-lucky-ic-fail{ color: rgba(239,68,68,0.95); }
+.lc-lucky-ic-fire{ color: rgba(251,146,60,0.98); }
+
+.lc-lucky-note{
+  margin-top: 10px;
+  text-align: center;
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: rgba(229,231,235,0.62);
+}
+
+/* Итоговая окраска по результату */
+.lc-lucky-panel.is-final.is-rerollplus{
+  box-shadow:
+    0 0 0 1px rgba(251,146,60,0.65),
+    0 0 46px rgba(251,146,60,0.20);
+}
+
+.lc-lucky-panel.is-final.is-reroll{
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,0.55),
+    0 0 46px rgba(34,197,94,0.16);
+}
+
+.lc-lucky-panel.is-final.is-fail{
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.55),
+    0 0 46px rgba(239,68,68,0.18);
+}
+
+/* ========================
+   LC DRAFT — ACTION SLOT (RIGHT SIDE)
+   ======================== */
+
+.lc-action-slot{
+  width: 240px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lc-action-btn{
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 14px 16px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+
+  transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+}
+
+.lc-action-btn:hover{
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.06);
+}
+
+/* REROLL+ RESTART! — чемпионские желтые */
+.lc-action-btn--champ{
+  color: rgba(10,16,28,0.92);
+  background: linear-gradient(90deg, rgba(255, 221, 53, 0.98), rgba(255, 176, 0, 0.98));
+  box-shadow:
+    0 0 0 1px rgba(255, 221, 53, 0.55),
+    0 0 42px rgba(255, 176, 0, 0.22);
+}
+
+/* RESTART PACK — зелёные */
+.lc-action-btn--green{
+  color: rgba(6,8,14,0.92);
+  background: linear-gradient(90deg, rgba(34,197,94,0.98), rgba(22,163,74,0.98));
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,0.55),
+    0 0 42px rgba(34,197,94,0.18);
+}
+
+/* END DRAFT — красные */
+.lc-action-btn--red{
+  color: rgba(255,255,255,0.92);
+  background: linear-gradient(90deg, rgba(239,68,68,0.98), rgba(185,28,28,0.98));
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.55),
+    0 0 42px rgba(239,68,68,0.18);
+}
+
+/* =========================
+   LC DRAFT — MAIN CTA (DRAFT!)
+   ========================= */
+
+#lc-draft-stage .draft-primary-btn[data-action="lc-draft-start"]{
+  position: relative;
+  isolation: isolate;
+
+  min-width: 360px;
+  padding: 18px 44px;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.34rem;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(148,163,184,0.18);
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(120, 170, 255, 0.22), transparent 55%),
+    linear-gradient(135deg, rgba(8,12,22,0.94), rgba(18, 24, 46, 0.92));
+
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.85),
+    0 22px 70px rgba(0,0,0,0.70),
+    0 0 90px rgba(124, 58, 237, 0.22);
+  cursor: pointer;
+
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+/* неоновая “аура” */
+#lc-draft-stage .draft-primary-btn[data-action="lc-draft-start"]::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius: inherit;
+  z-index:-1;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(124,58,237,0.70),
+    rgba(56,189,248,0.55),
+    transparent
+  );
+
+  filter: blur(12px);
+  opacity: 0.85;
+  animation: lcDraftCtaPulse 2.6s ease-in-out infinite;
+}
+
+/* тонкая внутренняя рамка */
+#lc-draft-stage .draft-primary-btn[data-action="lc-draft-start"]::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  pointer-events:none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 0 0 2px rgba(124,58,237,0.18);
+}
+
+#lc-draft-stage .draft-primary-btn[data-action="lc-draft-start"]:hover:not(:disabled){
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(124,58,237,0.30),
+    0 26px 84px rgba(0,0,0,0.78),
+    0 0 120px rgba(56,189,248,0.20);
+}
+
+#lc-draft-stage .draft-primary-btn[data-action="lc-draft-start"]:active:not(:disabled){
+  transform: translateY(0) scale(1.02);
+}
+
+@keyframes lcDraftCtaPulse{
+  0%   { transform: scale(0.985); opacity: 0.55; }
+  50%  { transform: scale(1.03);  opacity: 0.95; }
+  100% { transform: scale(0.985); opacity: 0.55; }
+}
+
+@media (max-width: 640px){
+  #lc-draft-stage .draft-primary-btn[data-action="lc-draft-start"]{
+    min-width: 280px;
+    padding: 16px 30px;
+    font-size: 0.95rem;
+    letter-spacing: 0.28rem;
+  }
+}
+
+/* ========================
+   LC DRAFT — PACK INFO (THEMED by --pack-tone)
+   ======================== */
+
+.lc-pack-info-shell{
+  position: relative;
+  border-radius: 26px;
+  padding: 18px 18px 22px;
+  overflow: hidden;
+
+  background: linear-gradient(135deg, rgba(6,8,14,0.92), rgba(2,6,23,0.88));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 30px 80px rgba(0,0,0,0.72);
+}
+
+.lc-pack-info-bg{
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+    radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--pack-tone) 24%, transparent), transparent 55%),
+    radial-gradient(circle at 84% 30%, color-mix(in srgb, var(--pack-tone) 16%, transparent), transparent 58%),
+    radial-gradient(circle at 50% 92%, rgba(255,255,255,0.06), transparent 56%),
+    linear-gradient(135deg, rgba(0,0,0,0.30), rgba(0,0,0,0.05));
+  filter: saturate(1.10);
+}
+
+.lc-pack-info-shell > *{
+  position: relative;
+  z-index: 2;
+}
+
+.lc-pack-info-shell .draft-pack-info-head{
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.lc-pack-info-shell .draft-pack-info-thumb{
+  box-shadow:
+    0 18px 42px rgba(0,0,0,0.70),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 34%, transparent),
+    0 0 34px color-mix(in srgb, var(--pack-tone) 18%, transparent);
+}
+
+/* BACK — крупнее и в стиле “премиум кнопок”, но в цвет пака */
+.lc-pack-info-shell .lc-pack-back-btn{
+  padding: 0.85rem 2.3rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.18rem;
+
+  color: rgba(8,10,14,0.92);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--pack-tone) 75%, #ffffff 25%),
+    color-mix(in srgb, var(--pack-tone) 88%, #000000 12%)
+  );
+
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.85),
+    0 18px 40px rgba(0,0,0,0.55),
+    0 0 26px color-mix(in srgb, var(--pack-tone) 45%, transparent);
+
+  transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+}
+
+.lc-pack-info-shell .lc-pack-back-btn:hover{
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.85),
+    0 22px 56px rgba(0,0,0,0.60),
+    0 0 44px color-mix(in srgb, var(--pack-tone) 55%, transparent);
+}
+
+/* Карточки команд — переокрашиваем только НА ЭТОЙ СТРАНИЦЕ */
+.lc-pack-info-shell .draft-team-tile{
+  background:
+    radial-gradient(circle at 30% 18%,
+      color-mix(in srgb, var(--pack-tone) 18%, transparent),
+      rgba(15, 23, 42, 0.98) 60%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.00));
+
+  box-shadow:
+    0 22px 46px rgba(0,0,0,0.75),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 22%, transparent);
+}
+
+.lc-pack-info-shell .draft-team-tile:hover{
+  box-shadow:
+    0 28px 58px rgba(0,0,0,0.80),
+    0 0 0 1px color-mix(in srgb, var(--pack-tone) 45%, transparent),
+    0 0 30px color-mix(in srgb, var(--pack-tone) 22%, transparent);
+}
+
+.lc-pack-info-shell .draft-team-tile-logo img{
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 16px color-mix(in srgb, var(--pack-tone) 18%, transparent));
+}
+
+.lc-pack-info-shell .draft-team-tile-name{
+  color: rgba(229,231,235,0.86);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--pack-tone) 16%, transparent);
+}
+
+
+
+/* адаптив */
+@media (max-width: 640px){
+  .champion-pill{
+    gap: 10px;
+    padding: 9px 12px;
+  }
+  .champion-pill-main{
+    letter-spacing: 0.14rem;
+  }
+  .champion-pill-tag{
+    display: none; /* на мобиле убираем тег, чтобы не теснило */
+  }
+}
+
+

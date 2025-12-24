@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>FIFAHUB 2.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ВАЖНО: подключаем стили -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <div class="frame">
+
+    <header class="hero">
+      <h1 class="hero-title">
+        FIFAHUB <span class="hero-title-accent">2.0</span>
+      </h1>
+
+        <div class="champion-strip" id="champion-strip"></div>
+
+      <!-- НАВИГАЦИОННЫЕ КНОПКИ -->
+      <nav class="hub-nav" id="hub-nav">
+        <button class="nav-button" data-view="andrey">ANDREY</button>
+        <button class="nav-button" data-view="maks">MAKS</button>
+        <button class="nav-button" data-view="lc-draft">LC DRAFT</button>
+        <button class="nav-button" data-view="wc-draft">WC DRAFT</button>
+      </nav>
+
+    </header>
+
+    <main class="grid-wrap">
+      <!-- ТУТ МЕНЯЕТСЯ КОНТЕНТ В ЗАВИСИМОСТИ ОТ КНОПКИ -->
+      <div id="view-root"></div>
+
+      <section class="footer-note">
+      </section>
+    </main>
+  </div>
+
+
+  
+
+  <script src="icons.js"></script>
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+  <audio id="lcTickSound" src="assets/sounds/tick.mp3" preload="auto"></audio>
+
+
+</body>
+</html>
