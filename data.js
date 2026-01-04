@@ -708,7 +708,56 @@ window.CURRENT_UCL_CHAMPION = {
 // Добавляй новые турниры по аналогии
 // type: "championsLeague" | "superCup" | "worldCup" | "euro"
 // =========================
+
+
+
 window.FC26_TOURNAMENTS = [
+
+    {
+    id: "fc26-ucl-2026-05-01",
+    type: "championsLeague",
+    title: "UCL",
+    date: "05.01.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "betis",
+    andreyTeamLabel: "REAL BETIS",
+    maksTeamKey: "celta",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "CELTA VIGO",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 2,  played: 8, w: 6, d: 0, l: 2, gf: 28, ga: 16, gd:  12, pts: 18 },
+        maks:   { place: 30,  played: 8, w: 2, d: 1, l: 5, gf: 21, ga: 32, gd:  -11, pts: 7 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        r16: { // 1/8
+          andrey: {
+            opponentKey: "sporting",
+            opponentLabel: "SPORTING",
+            agg: { f: 4, a: 6 },
+            legs: [{ f: 2, a: 3 }, { f: 2, a: 3 }],
+            result: "L"
+          },
+          maks: null
+        },
+
+        qf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        sf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+
+
+    }
+  },
+
   {
     id: "fc26-ucl-2025-12-20",
     type: "championsLeague",
