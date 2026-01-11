@@ -713,6 +713,65 @@ window.CURRENT_UCL_CHAMPION = {
 
 window.FC26_TOURNAMENTS = [
 
+      {
+    id: "fc26-ucl-2026-11-01",
+    type: "championsLeague",
+    title: "UCL",
+    date: "11.01.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "brugge",
+    andreyTeamLabel: "BRUGGE",
+    maksTeamKey: "galatasaray",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "GALATASARAY",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 17,  played: 8, w: 3, d: 2, l: 3, gf: 21, ga: 19, gd:  2, pts: 11 },
+        maks:   { place: 29,  played: 8, w: 2, d: 1, l: 5, gf: 24, ga: 32, gd:  -8, pts: 7 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        r16: { // 1/8
+          andrey: {
+            opponentKey: "man-city",
+            opponentLabel: "MANCHESTER CITY",
+            agg: { f: 8, a: 5 },
+            legs: [{ f: 5, a: 5 }, { f: 3, a: 0 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        qf: { andrey: {
+            opponentKey: "arsenal",
+            opponentLabel: "ARS. P0-3",
+            agg: { f: 6, a: 6 },
+            legs: [{ f: 0, a: 3 }, { f: 6, a: 2 }],
+            result: "L"
+          },
+          maks: null }, // 1/16 (у вас прочерк)
+
+        sf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+      awards: {
+        mvp: {
+          player: "Nicolò Tresoldi - 72",
+          teamKey: "brugge",
+          teamLabel: "ПОЗАНИМАЛСЯ С ФОРЛАНОМ",
+        }
+      }
+
+
+    }
+  },
+
     {
     id: "fc26-ucl-2026-05-01",
     type: "championsLeague",
@@ -823,7 +882,7 @@ window.FC26_TOURNAMENTS = [
         final: {
           andrey: {
             opponentKey: "man-city",
-            opponentLabel: "MAN CITY",
+            opponentLabel: "MANCHESTER CITY",
             agg: { f: 3, a: 0 },
             legs: [{ f: 3, a: 0 }], // финал 1 матч
             result: "W"
@@ -834,7 +893,7 @@ window.FC26_TOURNAMENTS = [
 
       awards: {
         mvp: {
-          player: "CUCO HERNANDEZ",
+          player: "Juan Camilo Hernández Suárez - 79",
           teamKey: "betis",
           teamLabel: "REAL BETIS",
           ratingAvg: 9.33
