@@ -751,7 +751,7 @@ window.FC26_TOURNAMENTS = [
             opponentKey: "arsenal",
             opponentLabel: "ARS. P0-3",
             agg: { f: 6, a: 6 },
-            legs: [{ f: 0, a: 3 }, { f: 6, a: 2 }],
+            legs: [{ f: 0, a: 4 }, { f: 6, a: 2 }],
             result: "L"
           },
           maks: null }, // 1/16 (у вас прочерк)
