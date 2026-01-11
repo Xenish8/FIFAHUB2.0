@@ -734,9 +734,7 @@ window.FC26_TOURNAMENTS = [
 
       // Плей-офф: если нет стадии — ставь null
       knockout: {
-        r32: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
-
-        r16: { // 1/8
+        r32: { // 1/8
           andrey: {
             opponentKey: "man-city",
             opponentLabel: "MANCHESTER CITY",
@@ -745,16 +743,18 @@ window.FC26_TOURNAMENTS = [
             result: "W"
           },
           maks: null
-        },
+        }, // 1/16 (у вас прочерк)
 
-        qf: { andrey: {
+        r16: { andrey: {
             opponentKey: "arsenal",
             opponentLabel: "ARS. P0-3",
             agg: { f: 6, a: 6 },
             legs: [{ f: 0, a: 4 }, { f: 6, a: 2 }],
             result: "L"
           },
-          maks: null }, // 1/16 (у вас прочерк)
+          maks: null },
+
+        qf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
 
         sf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
 
