@@ -378,7 +378,8 @@ const TROPHY_DATA = {
 
         // FIFA 25
         { teamKey: "at-bilbao",       fifaId: "fifa25" },  // 31 Athletic Club Bilbao
-        { teamKey: "betis",       fifaId: "fifa26" }  // 31 Athletic Club Bilbao
+        { teamKey: "betis",       fifaId: "fifa26" },  // 31 Athletic Club Bilbao
+        { teamKey: "barca",       fifaId: "fifa26" }
         
       ]
     }
@@ -696,9 +697,9 @@ window.LC_DRAFT_PACKS = {
 // =========================
 window.CURRENT_UCL_CHAMPION = {
   playerLabel: "ANDREY",
-  teamKey: "betis",
-  teamLabel: "BETIS",
-  date: "20.12.2025",
+  teamKey: "barca",
+  teamLabel: "BARCELONA",
+  date: "16.01.2026",
   note: "UCL CHAMPION"
 };
 
@@ -712,6 +713,86 @@ window.CURRENT_UCL_CHAMPION = {
 
 
 window.FC26_TOURNAMENTS = [
+
+      {
+    id: "fc26-ucl-2026-16-01",
+    type: "championsLeague",
+    title: "UCL",
+    date: "16.01.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "barca",
+    andreyTeamLabel: "BARCELONA",
+    maksTeamKey: "gaziantep",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "GAZIANTEP",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 1,  played: 8, w: 7, d: 0, l: 1, gf: 25, ga: 12, gd:  13, pts: 21 },
+        maks:   { place: 34,  played: 8, w: 0, d: 3, l: 5, gf: 17, ga: 30, gd:  -17, pts: 3 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { andrey: null, maks: null },
+
+        r16: { // 1/8
+          andrey: {
+            opponentKey: "chelsea",
+            opponentLabel: "CHELSEA",
+            agg: { f: 7, a: 4 },
+            legs: [{ f: 5, a: 3 }, { f: 2, a: 1 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        qf: { // 1/4
+          andrey: {
+            opponentKey: "bvb",
+            opponentLabel: "BORUSSIA DORTMUND",
+            agg: { f: 10, a: 6 },
+            legs: [{ f: 6, a: 2 }, { f: 4, a: 4 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        sf: { // 1/2
+          andrey: {
+            opponentKey: "real-madrid",
+            opponentLabel: "REAL MADRID",
+            agg: { f: 10, a: 7 },
+            legs: [{ f: 3, a: 3 }, { f: 7, a: 4 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        final: { // финал
+          andrey: {
+            opponentKey: "psg",
+            opponentLabel: "PSG",
+            agg: { f: 6, a: 4 },
+            result: "W"
+          },
+          maks: null
+        },
+      },
+      awards: {
+        mvp: {
+          player: "Robert Lewandowski - 89",
+          teamKey: "barca",
+          teamLabel: "BARCELONA",
+          ratingAvg: 9.17
+        }
+      }
+
+
+    }
+  },
+
 
       {
     id: "fc26-ucl-2026-11-01",
