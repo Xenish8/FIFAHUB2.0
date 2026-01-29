@@ -379,7 +379,20 @@ const TROPHY_DATA = {
         // FIFA 25
         { teamKey: "at-bilbao",       fifaId: "fifa25" },  // 31 Athletic Club Bilbao
         { teamKey: "betis",       fifaId: "fifa26" },  // 31 Athletic Club Bilbao
-        { teamKey: "barca",       fifaId: "fifa26" }
+              {
+          teamKey: "barca",
+          fifaId: "fifa26",
+          streakId: "cl-leipzig-1",
+          streakIndex: 1,
+        },
+
+                    {
+          teamKey: "barca",
+          fifaId: "fifa26",
+          streakId: "cl-leipzig-1",
+          streakIndex: 1,
+          streakLength: 2
+        }
         
       ]
     }
@@ -468,6 +481,9 @@ const TROPHY_DATA = {
   // max: {} – добавим позже
   
 };
+
+window.TROPHY_DATA = TROPHY_DATA;
+
 
 // ========================
 // LC DRAFT PACKS (Champions League)
@@ -699,7 +715,7 @@ window.CURRENT_UCL_CHAMPION = {
   playerLabel: "ANDREY",
   teamKey: "barca",
   teamLabel: "BARCELONA",
-  date: "16.01.2026",
+  date: "29.01.2026",
   note: "UCL CHAMPION"
 };
 
@@ -713,6 +729,85 @@ window.CURRENT_UCL_CHAMPION = {
 
 
 window.FC26_TOURNAMENTS = [
+
+        {
+    id: "fc26-ucl-2026-29-01",
+    type: "championsLeague",
+    title: "UCL",
+    date: "29.01.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "barca",
+    andreyTeamLabel: "BARCELONA",
+    maksTeamKey: "stuttgart",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "STUTTGART",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 8,  played: 8, w: 5, d: 0, l: 3, gf: 25, ga: 18, gd:  7, pts: 15 },
+        maks:   { place: 34,  played: 8, w: 2, d: 1, l: 5, gf: 20, ga: 28, gd:  -8, pts: 7 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { andrey: null, maks: null },
+
+        r16: { // 1/8
+          andrey: {
+            opponentKey: "liverpool",
+            opponentLabel: "LIVERPOOL",
+            agg: { f: 8, a: 5 },
+            legs: [{ f: 4, a: 2 }, { f: 4, a: 3 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        qf: { // 1/4
+          andrey: {
+            opponentKey: "spurs",
+            opponentLabel: "TOTTENHAM",
+            agg: { f: 9, a: 5 },
+            legs: [{ f: 4, a: 2 }, { f: 5, a: 3 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        sf: { // 1/2
+          andrey: {
+            opponentKey: "galatasaray",
+            opponentLabel: "GALATASARAY",
+            agg: { f: 12, a: 8 },
+            legs: [{ f: 4, a: 2 }, { f: 8, a: 6 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        final: { // финал
+          andrey: {
+            opponentKey: "man-city",
+            opponentLabel: "MANCHESTER CITY",
+            agg: { f: 4, a: 1 },
+            result: "W"
+          },
+          maks: null
+        },
+      },
+      awards: {
+        mvp: {
+          player: "Robert Lewandowski - 89",
+          teamKey: "barca",
+          teamLabel: "BARCELONA",
+          ratingAvg: 9.16
+        }
+      }
+
+
+    }
+  },
 
       {
     id: "fc26-ucl-2026-16-01",
@@ -986,5 +1081,337 @@ window.FC26_TOURNAMENTS = [
 
 
 
+
+
+
+
+
+
+// =========================
+// HALL OF FAMES — SCORERS (MANUAL)
+// =========================
+window.HOF_SCORERS = [
+  {
+    rank: 1,
+    name: "Richarlison de Andrade",
+    teamKey: "spurs",                 // если лого не то — меняешь только это
+    goals: 36,
+    photo: "assets/halloffames/richarlison.png"
+  },
+  {
+    rank: 2,
+    name: "Cristiano Ronaldo dos Santos Aveiro",
+    teamKey: "juventus",
+    goals: 35,
+    photo: "assets/halloffames/ronaldo.png"
+  },
+  {
+    rank: 3,
+    name: "Timo Werner",
+    teamKey: "leipzig",
+    goals: 32,
+    photo: "assets/halloffames/werner.png"
+  },
+    {
+    rank: 4,
+    name: "Robert Lewandowski",
+    teamKey: "barca",
+    goals: 26,
+    photo: "assets/halloffames/lewandowski.png"
+  }
+];
+
+
+
+
+
+
+// =========================
+// HALL OF FAMES — LEGENDS (MANUAL)
+// =========================
+window.HOF_LEGENDS = [
+  
+  {
+    name: "Guilherme Alvim Marinato",
+    teamKey: "lokomotiv",
+    position: "GK",
+    photo: "assets/halloffames/guilherme.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 2
+    },
+
+    quote: "«Одна из первых легенд, звезда эпохи Локомотива, двухкратный обладатель самых первых трофеев Лиги Чемпионов Андрея в мезозойской FIFA 19»"
+  },//ГИЛЯ
+
+      {
+    name: "Péter Gulácsi",
+    teamKey: "leipzig",
+    position: "GK",
+    photo: "assets/halloffames/gulascsi.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 4,
+      supercup:1
+    },
+
+    quote: "«Легенда Лейпцига 20 фифы. Четырёхкратный обладатель Лиги Чемпионов. Спустя три года в FIFA 23, стал обладателем Суперкубка УЕФА. Это было последнее появление Лейпцига в таблице на данный момент, в настоящее время этот некогда великий клуб - в тени»"
+  },//ГУЛЯ
+
+      {
+    name: "Manuel Peter Neuer",
+    teamKey: "bayern",
+    position: "GK",
+    photo: "assets/halloffames/neuer.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 6
+    },
+
+    quote: "«Шестикратный обладатель Лиги Чемпионов. Легенда Баварии Андрея времён FIFA 21 и FIFA 22»"
+  },//НОЙЕР
+
+            {
+    name: "Odysseas Vlachodimos",
+    teamKey: "benfica",
+    position: "GK",
+    photo: "assets/halloffames/vlahodimoz.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 1,
+      
+    },
+
+    quote: "«Одиссея, Влаходимос, он же Влаходимос Великий. В FIFA 20 Победитель первой в истории Макса Лиги Чемпионов»"
+  },//ВЛАХОДИМОС
+
+        {
+    name: "Yann Sommer",
+    teamKey: "switzerland",
+    position: "GK",
+    photo: "assets/halloffames/sommer.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      wc: 2,
+      euro: 1
+    },
+
+    quote: "«Двухкратный обладатель Чемпионатов мира подряд, а также обладатель Чемпионата Европы. Творец успеха сборной Швейцарии образца FIFA 21»"
+  },//СОММЕР
+
+            {
+    name: "Maarten Stekelenburg",
+    teamKey: "netherlands",
+    position: "GK",
+    photo: "assets/halloffames/steklo.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 1,
+      euro: 1
+      
+      
+    },
+
+    quote: "«Великий вратарь с невеликим рейтингом. Благодаря своей игре основал некий клуб 74, благодаря которому, в наше время вратари с рейтингом 74 имеют почёт и уважение. Был одним из главных открытий и одним из главных творцов победы Голландии Макса на EURO в FIFA 21, а также имеет в своём активе трофей за Аякс Макса в FIFA 22, будучи вратарём запаса, но выходя в трудные минуты и совершая ключевые сейвы благодаря своему волшебному рейтингу»"
+  },//СТЕКЕЛЕНБУРГ
+
+              {
+    name: "Jacobus Antonius Peter Cillessen",
+    teamKey: "valencia",
+    position: "GK",
+    photo: "assets/halloffames/cilesen.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 2,
+      
+    },
+
+    quote: "«Один из ключевых игроков праймовой Валенсии Макса FIFA 20. Двухкратный обладатель Лиги Чемпионов»"
+  },//СИЛУС
+
+                {
+    name: "Gianluigi Donnarumma",
+    teamKey: "psg",
+    position: "GK",
+    photo: "assets/halloffames/donnaruma.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 2,
+      euro: 1
+      
+    },
+
+    quote: "«Доннарума. Он же - донная комната. Высокорейтинговый топовый ГК, двухкратный обладатель ЛЧ в составе PSG Макса в FIFA 22, а также победитель Чемпионата Европы в FC 24 в качестве основного ГК в сборной Италии Андрея»"
+  },//ДОННАЯ КОМНАТА
+
+                  {
+    name: "Mike Peterson Maignan",
+    teamKey: "milan",
+    position: "GK",
+    photo: "assets/halloffames/maingnan.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 2,
+      euro: 1
+      
+    },
+
+    quote: "«Мэигнан - он же мейнголан. ГК стабильного хайрейтинга из династии банановых страстей. Правнук великого Манданды, сводный брат Онаны. Двухкратный обладатель Лиги Чемпионов в составе Милана Макса в FIFA 22, а также победитель Чемпионата Европы в составе сборной Франции Андрея в FC 24»"
+  },//МЕЙНГНАН
+
+                    {
+    name: "Thibaut Nicolas Marc Courtois",
+    teamKey: "real-madrid",
+    position: "GK",
+    photo: "assets/halloffames/courtois.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 15,
+      euro: 1,
+      supercup: 1
+      
+    },
+
+    quote: "«ПЯТНАДЦАТИКРАТНЫЙ обладатель Лиги Чемпионов в составе Реал Мадрида, 13 из них под руководством Андрея, 2 - под руководством Макса. Обладатель Суперкубка УЕФА в FC 24, победитель Чемпионата Европы в составе сборной Бельгии Андрея в FC 24, обладатель абсолютного рекорда среди вратарей - пропущено 8 голов за весь победный розыгрыш Лиги Чемпионов старого формата»"
+  },//КУРТКА
+
+                            {
+    name: "Ørjan Håskjold Nyland",
+    teamKey: "norway",
+    position: "GK",
+    photo: "assets/halloffames/nyland.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      euro: 2
+      
+    },
+
+    quote: "«Великий берег Нила. Норвежский монстр с низким рейтингом. Двухкратный победитель EURO в FC 24 за Норвегию Андрея»"
+  },//НИЛАНД
+
+                            {
+    name: "Wayne Robert Hennessey",
+    teamKey: "wales",
+    position: "GK",
+    photo: "assets/halloffames/henessy.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      wc: 1,
+      euro: 1
+      
+    },
+
+    quote: "«Опьянял нападающих своими аномальными сейвами, хотя и имел достаточно низкий рейтинг. Но этот фат не помешал ему стать победителем Чемпионата мира и Чемпионата Европы в составе Уэльса Андрея в FIFA 22»"
+  },//ХЕНЕССИ
+
+                      {
+    name: "Matz Willy Els Sels",
+    teamKey: "nottingham-f",
+    position: "GK",
+    photo: "assets/halloffames/sels.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 1
+      
+    },
+
+    quote: "«Победитель Лиги Чемпионов в составе Ноттингем Форест Макса в FC 25. Один из самых ключевых игроков, повлиявших на результат НФ в том розыгрыше, за что и был удостоин права находиться в кагорте легенд»"
+  },//АВИАСЕЙЛС
+
+
+                        {
+    name: "Vladislav Ignatjev",
+    teamKey: "lokomotiv",
+    position: "DEF",
+    photo: "assets/halloffames/ignatiev.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 2
+      
+    },
+
+    quote: "«Владислав Игнатьев... Для кого-то ангел несущий свет, для кого-то демон во плоти. Но к одному человеку, родом из солнечной бразилии, Владик до сих пор является в самых страшных влажных снах. Двухкратный обладатель Лиги Чемпионов в составе Локомотива в FIFA 19, Обладатель единственного в своём роде Бриллиантового мяча»"
+  },//ИГНАТЬЕВ
+
+                          {
+    name: "Dayotchanculle Oswald Upamecano",
+    teamKey: "leipzig",
+    position: "DEF",
+    photo: "assets/halloffames/upamecano.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 7,
+      euro: 1
+      
+    },
+
+    quote: "«Ручной негр Андрея, фигурировавший в сезонах 20,22,24. Семикратный обладатель ЛЧ. 4 - в составе Лейпцига Андрея, 2 в составе Баварии Андрея, 1 - в составе Баварии Макса. Также Чемпион Европы в FC 24 в составе Франции Андрея »"
+  },//УПАМЕКАНЫЧ
+
+                            {
+    name: "Virgil van Dijk",
+    teamKey: "liverpool",
+    position: "DEF",
+    photo: "assets/halloffames/vandike.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 1,
+      euro: 4
+      
+    },
+
+    quote: "«Божий сын Владислава Игнатьева. Обладатель четырёх кубков Европы в FIFA 21 и FC 24. 3 - за Голландию Макса, 1 - за Голландию Андрея. Обладатель кубка Лиги Чемпионов за Ливерпуль Макса в FIFA 21. На данный момент времени считается САМЫМ страшным, кровожадным и убийственым защитником последних лет»"
+  },//ВАНДАЙК
+
+                              {
+    name: "Oluwafikayomi Oluwadamilola Tomori",
+    teamKey: "milan",
+    position: "DEF",
+    photo: "assets/halloffames/tomori.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 2,
+      euro: 2
+      
+    },
+
+    quote: "«Тамара Михайловна. Машина, созданная причинять боль. Был неотъемлемой частью мерзкого состава Милана в FIFA 22, с которым стал двухкратным победителем Лиги Чемпионов. Затем, через время, в FC 24 в составе Англичан Андрея также два раза стал обладателем трофея, но уже Чемпионата Европы»"
+  },//ТОМАРА
+
+                                {
+    name: "Antonio Rüdiger",
+    teamKey: "real-madrid",
+    position: "DEF",
+    photo: "assets/halloffames/rudiger.png",
+
+    // trophies: lc | wc | euro | supercup
+    trophies: {
+      lc: 15,
+      supercup: 1
+      
+    },
+
+    quote: "«ПЯТНАДЦАТИКРАТНЫЙ Мадридский людоед, питающийся кровью и плотью несчастных доходяг, которые посмели пересечь половину поля и вторгнуться во владения Реала. 13 трофеев ЛЧ, а также Суперкубок - в составе Реала Андрея и два трофея Лиги Чемпионов за Реал Макса»"
+  },//ТОМАРА
+  
+
+];
 
   

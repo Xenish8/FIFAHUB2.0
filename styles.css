@@ -545,6 +545,16 @@ body {
   color: rgba(255,255,255,0.94);
 }
 
+/* WINNER highlight in FC26 tournament list */
+.tourn-player--winner{
+  color: #FACC15; /* золото/жёлтый */
+  text-shadow:
+    0 0 10px rgba(250, 204, 21, 0.45),
+    0 0 22px rgba(250, 204, 21, 0.28),
+    0 0 46px rgba(250, 204, 21, 0.16);
+}
+
+
 .tourn-dash{
   color: rgba(229,231,235,0.42);
 }
@@ -719,6 +729,59 @@ body {
   text-transform: uppercase;
   color: rgba(255,255,255,0.92);
 }
+
+.tournament-hero-right{
+  justify-self: end;
+}
+
+.hero-champion{
+  border-radius: 18px;
+  padding: 12px 14px;
+
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--tourn-color) 26%, transparent), transparent 62%),
+    rgba(15, 23, 42, 0.58);
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tourn-color) 40%, rgba(148,163,184,0.14)),
+    0 0 28px color-mix(in srgb, var(--tourn-color) 18%, transparent);
+
+  min-width: 170px;
+  text-align: right;
+}
+
+.hero-champion-label{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.68);
+  margin-bottom: 6px;
+}
+
+.hero-champion-line{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-champion-who{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.hero-champion-club{
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 10px rgba(0,0,0,0.55))
+    drop-shadow(0 0 18px color-mix(in srgb, var(--tourn-color) 20%, transparent));
+}
+
 
 .hero-player{
   display:inline-flex;
@@ -1668,6 +1731,27 @@ body {
 .nav-button.is-active::after {
   width: 100%;
 }
+
+/* GOLD NAV BUTTON (как "2.0") */
+.nav-button--gold{
+  color: #facc15;
+  text-shadow:
+    0 0 18px rgba(250, 204, 21, 0.80),
+    0 0 32px rgba(0, 0, 0, 0.90);
+}
+
+/* линии под золотой кнопкой */
+.nav-button--gold::before,
+.nav-button--gold::after{
+  background: #facc15;
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.55);
+}
+
+/* активная золотая вкладка */
+.nav-button--gold.is-active{
+  color: #facc15;
+}
+
 
 
   /* =======================
@@ -4137,4 +4221,629 @@ box-shadow:
   }
 }
 
+
+/* =========================
+   HALL OF FAMES — SCORERS (VERTICAL LIST)
+   ========================= */
+
+.hof-view{
+  border-radius: 26px;
+  padding: 18px 18px 22px;
+  background: linear-gradient(135deg, rgba(6,8,14,0.94), rgba(2,6,23,0.90));
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.14),
+    0 32px 86px rgba(0,0,0,0.74);
+}
+
+.hof-section-title{
+  margin: 6px 4px 14px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.26rem;
+  text-transform: uppercase;
+  color: rgba(249,250,251,0.92);
+}
+
+.hof-scorers-list{
+  display: grid;
+  gap: 14px;
+}
+
+/* ROW */
+.hof-scorer-row{
+  --medal: #94a3b8;
+
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 18px;
+
+  display: grid;
+  grid-template-columns: 74px 120px 1fr 140px;
+  gap: 18px;
+  align-items: center;
+
+  background:
+    radial-gradient(circle at 16% 28%, color-mix(in srgb, var(--medal) 16%, transparent), transparent 62%),
+    linear-gradient(135deg, rgba(8,12,22,0.94), rgba(18,24,46,0.92));
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--medal) 26%, rgba(148,163,184,0.14)),
+    0 22px 64px rgba(0,0,0,0.68),
+    0 0 90px color-mix(in srgb, var(--medal) 12%, transparent);
+}
+
+/* медальная вертикальная линия слева */
+.hof-scorer-row::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 4px;
+  background: var(--medal);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--medal) 60%, transparent);
+  opacity: 0.95;
+}
+
+.hof-scorer-row--gold{   --medal: #facc15; }
+.hof-scorer-row--silver{ --medal: #d1d5db; }
+.hof-scorer-row--bronze{ --medal: #ff8a3d; }
+
+/* HOF SCORERS — plain rows (rank 4+) */
+.hof-scorer-row--plain{
+  border-color: rgba(255,255,255,.10) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35) !important;
+  background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.02)) !important;
+}
+
+/* если у medal-версий есть цветной "луч/подсветка" через псевдоэлементы — глушим */
+.hof-scorer-row--plain::before,
+.hof-scorer-row--plain::after{
+  display:none !important;
+}
+
+.hof-scorer-row--plain .hof-medal-badge{
+  color: rgba(255,255,255,.75);
+  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.04);
+}
+
+
+/* #1 / #2 / #3 */
+.hof-medal-badge{
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.14rem;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.05);
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--medal) 26%, rgba(148,163,184,0.14)),
+    0 0 28px color-mix(in srgb, var(--medal) 14%, transparent);
+}
+
+/* PHOTO (bigger) */
+.hof-photo{
+  width: 130px;
+  height: 130px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--medal) 22%, rgba(148,163,184,0.14)),
+    0 0 38px color-mix(in srgb, var(--medal) 16%, transparent);
+}
+
+.hof-photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* MID */
+.hof-mid{
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* имя по центру карточки */
+  gap: 0;
+  min-width: 0;
+}
+
+
+.hof-name-row{
+  display: flex;
+  align-items: center;     /* вертикальный центр */
+  gap: 18px;
+  min-width: 0;
+}
+
+
+.hof-name{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.55rem;      /* было меньше — делаем крупнее */
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.94);
+  line-height: 1.1;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hof-divider{
+  height: 1px;
+  margin: 18px 4px 18px;
+  background: linear-gradient(90deg, transparent, rgba(148,163,184,0.22), transparent);
+}
+
+/* =========================
+   HALL OF FAMES — LEGENDS
+   ========================= */
+
+.hof-section--legends{
+  --legend: #ef4444;
+}
+
+.hof-section-title--legends{
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 0 22px rgba(239,68,68,0.18);
+}
+
+.hof-legends-list{
+  display: grid;
+  gap: 14px;
+}
+
+/* легенда-строка: та же сетка, что скореры, но без места и без goals */
+.hof-legend-row{
+  --medal: #ef4444; /* используем в glow */
+
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 18px;
+
+  display: grid;
+  grid-template-columns: 120px 1fr 220px;
+  gap: 18px;
+  align-items: center;
+
+  background:
+    radial-gradient(circle at 16% 28%, rgba(239,68,68,0.12), transparent 62%),
+    linear-gradient(135deg, rgba(8,12,22,0.94), rgba(18,24,46,0.92));
+
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.24),
+    0 22px 64px rgba(0,0,0,0.68),
+    0 0 90px rgba(239,68,68,0.10);
+
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+}
+
+.hof-legend-row:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.38),
+    0 26px 72px rgba(0,0,0,0.72),
+    0 0 110px rgba(239,68,68,0.16);
+}
+
+/* позиция */
+.hof-pos{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.92);
+  background: rgba(239,68,68,0.16);
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.28),
+    0 0 18px rgba(239,68,68,0.10);
+}
+
+/* Position color coding */
+.hof-pos--gk{
+  background: rgba(255,255,255,0.10);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.30),
+    0 0 18px rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.92);
+}
+
+.hof-pos--def{
+  background: rgba(34,197,94,0.18);
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,0.35),
+    0 0 18px rgba(34,197,94,0.14);
+  color: rgba(255,255,255,0.92);
+}
+
+.hof-pos--mid{
+  background: rgba(250,204,21,0.18);
+  box-shadow:
+    0 0 0 1px rgba(250,204,21,0.35),
+    0 0 18px rgba(250,204,21,0.14);
+  color: rgba(255,255,255,0.92);
+}
+
+.hof-pos--fwd{
+  background: rgba(56,189,248,0.18);
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,0.35),
+    0 0 18px rgba(56,189,248,0.14);
+  color: rgba(255,255,255,0.92);
+}
+
+
+/* трофеи справа */
+.hof-trophies{
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  border-radius: 20px;
+  padding: 12px 14px;
+  background: rgba(15, 23, 42, 0.58);
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.20),
+    0 0 34px rgba(239,68,68,0.10);
+}
+
+.hof-trophy{
+  position: relative;
+  width: 92px;
+  height: 92px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+
+.hof-trophy-icon{
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 12px rgba(0,0,0,0.55))
+    drop-shadow(0 0 28px rgba(239,68,68,0.22));
+}
+
+
+.hof-trophy-x{
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+
+  border-radius: 999px;
+  padding: 6px 8px;
+
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14rem;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.92);
+  background: rgba(239,68,68,0.32);
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.30),
+    0 0 18px rgba(239,68,68,0.14);
+}
+
+.hof-trophy-empty{
+  font-family: "Orbitron", system-ui, sans-serif;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.42);
+}
+
+/* responsive */
+@media (max-width: 980px){
+  .hof-legend-row{
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .hof-trophies{
+    justify-self: start;
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+}
+
+/* =========================
+   HOF MODAL (quote)
+   ========================= */
+
+.hof-modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  z-index: 9999;
+
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+}
+
+body.hof-modal-open .hof-modal{
+  display: flex;
+}
+
+
+.hof-modal-card{
+  width: min(980px, 94vw);   /* ширина окна */
+  max-height: 80vh;         /* чтобы не вылезало за экран */
+  border-radius: 28px;
+
+  padding: 36px 40px 32px;  /* внутренние отступы */
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(239,68,68,0.18), transparent 60%),
+    linear-gradient(135deg, rgba(8,12,22,0.97), rgba(18,24,46,0.95));
+
+  box-shadow:
+    0 0 0 1px rgba(239,68,68,0.28),
+    0 30px 120px rgba(0,0,0,0.85),
+    0 0 160px rgba(239,68,68,0.18);
+}
+
+
+.hof-modal-quote{
+  font-family: "Orbitron", system-ui, sans-serif;
+
+  font-size: 1.6rem;        /* ← основной размер текста */
+  line-height: 1.55;
+
+  letter-spacing: 0.12rem;
+  color: rgba(255,255,255,0.94);
+
+  font-style: italic;
+  text-align: left;
+}
+
+
+.hof-modal-hint{
+  margin-top: 14px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.45);
+}
+
+
+
+/* CLUB */
+
+
+.hof-club-logo{
+  width: 106px;    /* было 62 */
+  height: 106px;   /* было 62 */
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 12px rgba(0,0,0,0.55))
+    drop-shadow(0 0 26px color-mix(in srgb, var(--medal) 16%, transparent));
+}
+
+
+
+
+/* GOALS (bigger, clean) */
+.hof-goals{
+  justify-self: end;
+  text-align: right;
+
+  border-radius: 20px;
+  padding: 14px 16px;
+
+  background: rgba(15, 23, 42, 0.58);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--medal) 22%, rgba(148,163,184,0.14)),
+    0 0 34px color-mix(in srgb, var(--medal) 14%, transparent);
+}
+
+.hof-goals-num{
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 2.05rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.94);
+  text-shadow: 0 0 26px color-mix(in srgb, var(--medal) 18%, transparent);
+}
+
+.hof-goals-label{
+  margin-top: 8px;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.24rem;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.58);
+}
+
+/* subtle scanline */
+.hof-row-scan{
+  position:absolute;
+  inset: -40% -10%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  transform: rotate(8deg) translateX(-70%);
+  animation: hofScan 3.8s ease-in-out infinite;
+  pointer-events:none;
+  opacity: 0.35;
+}
+
+@keyframes hofScan{
+  0%   { transform: rotate(8deg) translateX(-70%); opacity: 0.0; }
+  25%  { opacity: 0.45; }
+  60%  { opacity: 0.25; }
+  100% { transform: rotate(8deg) translateX(70%); opacity: 0.0; }
+}
+
+/* responsive */
+@media (max-width: 980px){
+  .hof-scorer-row{
+    grid-template-columns: 74px 110px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .hof-goals{
+    justify-self: start;
+    grid-column: 1 / -1;
+    text-align: left;
+    width: fit-content;
+  }
+}
+
+/* =========================
+   TROPHY SUMMARY — PREMIUM MINIMAL
+   ========================= */
+
+.trophy-sum-wrap{
+  display:flex;
+  justify-content:center;
+  margin: -30px 0 10px; /* ровно и сверху/снизу */
+}
+
+/* убрали “окошко”: теперь это воздушная строка с тонким подчёркиванием */
+.trophy-sum-pill{
+  position: relative;
+  display:flex;
+  align-items:flex-end;
+  gap: 22px;
+  padding: 8px 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* тонкая неоновая линия снизу (FC-вайб) */
+.trophy-sum-pill::after{
+  content:"";
+  position:absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 520px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.20),
+    rgba(124,58,237,0.35),
+    rgba(255,255,255,0.20),
+    transparent
+  );
+  filter: drop-shadow(0 0 10px rgba(124,58,237,0.18));
+  pointer-events:none;
+}
+
+.trophy-sum-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-width: 64px;
+  position: relative;
+}
+
+/* маленький лейбл, чистый */
+.trophy-sum-k{
+  font-family: Orbitron, system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  opacity: .75;
+  color: rgba(231, 241, 255, 0.86);
+}
+
+/* цифра — главная, мощная */
+.trophy-sum-v{
+  margin-top: 8px;
+  font-family: Orbitron, system-ui, sans-serif;
+  font-size: 26px;
+  letter-spacing: .06em;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 0 18px rgba(255,255,255,0.10);
+}
+
+/* разделители — тонкие */
+.trophy-sum-sep{
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,.14), transparent);
+  transform: translateY(-2px);
+  opacity: .8;
+}
+
+/* Цветной акцент: только лейбл, чуть glow */
+.trophy-sum-item:not(.trophy-sum-item--total) .trophy-sum-k{
+  color: color-mix(in srgb, var(--sum-color) 75%, rgba(231,241,255,0.86));
+  text-shadow: 0 0 14px color-mix(in srgb, var(--sum-color) 45%, transparent);
+}
+
+/* TOTAL — огненный и крупнее */
+.trophy-sum-item--total{
+  margin-left: 6px;
+  transform: translateY(1px);
+}
+
+.trophy-sum-item--total .trophy-sum-k{
+  opacity: .9;
+  color: transparent;
+  background: linear-gradient(90deg, #ff3d00, #ffb300, #ff3d00);
+  background-size: 180% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: totalFire 1.9s linear infinite;
+  text-shadow: 0 0 18px rgba(255, 115, 0, 0.25);
+}
+
+.trophy-sum-item--total .trophy-sum-v{
+  font-size: 30px;
+  color: rgba(255,255,255,0.95);
+  text-shadow:
+    0 0 24px rgba(255, 120, 0, 0.22),
+    0 0 10px rgba(255,255,255,0.10);
+}
+
+/* лёгкий “блик” по цифре при наведении */
+.trophy-sum-item:hover .trophy-sum-v{
+  text-shadow:
+    0 0 26px rgba(255,255,255,0.16),
+    0 0 18px color-mix(in srgb, var(--sum-color) 30%, transparent);
+  transform: translateY(-1px);
+  transition: 0.18s ease;
+}
+
+@keyframes totalFire{
+  0%   { background-position: 0% 50%; filter: brightness(1.00); }
+  50%  { background-position: 100% 50%; filter: brightness(1.15); }
+  100% { background-position: 0% 50%; filter: brightness(1.00); }
+}
 

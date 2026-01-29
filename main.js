@@ -184,6 +184,9 @@ function navigateToView(viewName) {
       renderTournamentEmptyView(root);
       break;
 
+    case "hof":
+      renderHallOfFameView(root);
+      break;
 
 
     case "seasons":
@@ -193,15 +196,204 @@ function navigateToView(viewName) {
   }
 }
 
-function getTournamentTheme(type) {
-  const map = {
-    championsLeague: { label: "UCL", color: "#7C3AED" }, // фиолетовый
-    superCup:        { label: "SUPERCUP", color: "#D1D5DB" }, // белый/серый
-    worldCup:        { label: "WORLD CUP", color: "#FACC15" }, // жёлтый
-    euro:            { label: "EURO", color: "#EF4444" } // красный
+function renderHallOfFameView(root) {
+  // SCORERS
+  const list = Array.isArray(window.HOF_SCORERS) ? window.HOF_SCORERS : [];
+const scorersSorted = list
+  .slice()
+  .sort((a, b) => (Number(a.rank) || 999) - (Number(b.rank) || 999));
+
+
+  // LEGENDS
+  const legends = Array.isArray(window.HOF_LEGENDS) ? window.HOF_LEGENDS : [];
+
+  // cups icons (LEGENDS)
+  const CUP_ICONS = {
+    lc: "assets/halloffames/cups/lcfame.png",
+    wc: "assets/halloffames/cups/wcfame.png",
+    euro: "assets/halloffames/cups/eurofame.png",
+    supercup: "assets/halloffames/cups/supercupfame.png"
   };
-  return map[type] || { label: "TOURNAMENT", color: "#64748b" };
+
+  const section = document.createElement("section");
+  section.className = "hof-view";
+
+  section.innerHTML = `
+    <div class="hof-section">
+      <div class="hof-section-title">SCORERS</div>
+
+      <div class="hof-scorers-list">
+        ${scorersSorted.map((p) => {
+
+          const rank = Number(p.rank) || 0;
+          const medal = rank === 1 ? "gold" : (rank === 2 ? "silver" : (rank === 3 ? "bronze" : null));
+const rowClass = medal ? `hof-scorer-row hof-scorer-row--${medal}` : `hof-scorer-row hof-scorer-row--plain`;
+
+          const clubLogo = p.teamKey ? window.getLogoPath(p.teamKey) : "";
+          const goals = (typeof p.goals === "number") ? p.goals : "—";
+
+          return `
+            <div class="${rowClass}">
+
+              <div class="hof-medal-badge">#${rank}</div>
+
+              <div class="hof-photo">
+                <img src="${p.photo}" alt="${p.name}" onerror="this.style.opacity='0'">
+              </div>
+
+              <div class="hof-mid">
+                <div class="hof-name-row">
+                  ${clubLogo ? `<img class="hof-club-logo" src="${clubLogo}" alt="${p.teamKey}" onerror="this.style.display='none'">` : ""}
+                  <div class="hof-name">${p.name}</div>
+                </div>
+              </div>
+
+              <div class="hof-goals">
+                <div class="hof-goals-num">${goals}</div>
+                <div class="hof-goals-label">GOALS</div>
+              </div>
+
+              <div class="hof-row-scan" aria-hidden="true"></div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+
+    <div class="hof-divider"></div>
+
+    <div class="hof-section hof-section--legends">
+      <div class="hof-section-title hof-section-title--legends">LEGENDS</div>
+
+      <div class="hof-legends-list">
+        ${legends.map((p) => {
+          const clubLogo = p.teamKey ? window.getLogoPath(p.teamKey) : "";
+          const pos = String(p.position || "").toUpperCase();
+          const quote = p.quote || "«…»";
+
+          const trophies = p.trophies || {};
+          const trophyKeys = Object.keys(trophies).filter(k => trophies[k]);
+
+          const trophiesHtml = trophyKeys.length
+            ? trophyKeys.map((k) => {
+                const count = trophies[k];
+                const icon = CUP_ICONS[k];
+                if (!icon) return "";
+                return `
+                  <div class="hof-trophy">
+                    <img class="hof-trophy-icon" src="${icon}" alt="${k}" onerror="this.style.display='none'">
+                    ${count > 1 ? `<span class="hof-trophy-x">x${count}</span>` : ``}
+                  </div>
+                `;
+              }).join("")
+            : `<div class="hof-trophy-empty">—</div>`;
+
+          return `
+            <div class="hof-legend-row"
+                 data-hof-legend="1"
+                 data-quote="${String(quote).replaceAll('"', '&quot;')}">
+              <div class="hof-photo">
+                <img src="${p.photo}" alt="${p.name}" onerror="this.style.opacity='0'">
+              </div>
+
+              <div class="hof-mid">
+                <div class="hof-name-row">
+                  ${clubLogo ? `<img class="hof-club-logo" src="${clubLogo}" alt="${p.teamKey}" onerror="this.style.display='none'">` : ""}
+                  <span class="hof-pos hof-pos--${pos.toLowerCase()}">${pos}</span>
+
+                  <div class="hof-name">${p.name}</div>
+                </div>
+              </div>
+
+              <div class="hof-trophies">
+                ${trophiesHtml}
+              </div>
+
+              <div class="hof-row-scan" aria-hidden="true"></div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+
+  root.appendChild(section);
+
+  // --- GLOBAL MODAL (always centered) ---
+let modal = document.getElementById("hof-modal");
+let quoteEl = document.getElementById("hof-modal-quote");
+
+// если модалки ещё нет — создаём и кладём в body
+if (!modal) {
+  modal = document.createElement("div");
+  modal.className = "hof-modal";
+  modal.id = "hof-modal";
+  modal.setAttribute("aria-hidden", "true");
+
+  modal.innerHTML = `
+    <div class="hof-modal-card">
+      <div class="hof-modal-quote" id="hof-modal-quote"></div>
+      <div class="hof-modal-hint">CLICK TO CLOSE</div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  quoteEl = document.getElementById("hof-modal-quote");
 }
+
+
+  // MODAL (legend quote)
+section.addEventListener("click", (e) => {
+  const row = e.target.closest("[data-hof-legend]");
+  if (!row) return;
+
+  // если уже открыто — закрываем
+  if (document.body.classList.contains("hof-modal-open")) {
+    document.body.classList.remove("hof-modal-open");
+    modal.setAttribute("aria-hidden", "true");
+    return;
+  }
+
+  const quote = row.getAttribute("data-quote") || "«…»";
+  quoteEl.textContent = quote;
+
+  document.body.classList.add("hof-modal-open");
+  modal.setAttribute("aria-hidden", "false");
+});
+
+modal.onclick = () => {
+  document.body.classList.remove("hof-modal-open");
+  modal.setAttribute("aria-hidden", "true");
+};
+
+
+}
+
+
+
+
+function getTournamentTheme(type) {
+  const normalized = String(type || "")
+    .trim()
+    .toLowerCase();
+
+  const map = {
+    "championsleague": { label: "UCL", color: "#7C3AED" },   // фиолетовый
+    "ucl":             { label: "UCL", color: "#7C3AED" },
+
+    "supercup":        { label: "SUPERCUP", color: "#D1D5DB" }, // белый/серый
+    "sc":              { label: "SUPERCUP", color: "#D1D5DB" },
+
+    "worldcup":        { label: "WORLD CUP", color: "#FACC15" }, // жёлтый
+    "wc":              { label: "WORLD CUP", color: "#FACC15" },
+
+    "euro":            { label: "EURO", color: "#EF4444" },  // красный
+    "uefaeuro":        { label: "EURO", color: "#EF4444" }
+  };
+
+  return map[normalized] || { label: "TOURNAMENT", color: "#64748b" };
+}
+
 
 function renderFc26TournamentsView(root) {
   const section = document.createElement("section");
@@ -225,6 +417,11 @@ function renderFc26TournamentsView(root) {
         // Лого клубов (если ключи есть)
         const aLogo = t.andreyTeamKey ? window.getLogoPath(t.andreyTeamKey) : "";
         const mLogo = t.maksTeamKey ? window.getLogoPath(t.maksTeamKey) : "";
+        // WINNER (если финал отмечен W)
+const ko = t?.details?.knockout || {};
+const andreyWon = ko?.final?.andrey?.result === "W";
+const maksWon   = ko?.final?.maks?.result === "W";
+
 
 return `
   <button class="tournament-btn"
@@ -239,13 +436,13 @@ return `
     </div>
 
     <div class="tourn-centerline">
-      <span class="tourn-player">ANDREY</span>
+      <span class="tourn-player ${andreyWon ? "tourn-player--winner" : (maksWon ? "tourn-player--loser" : "")}">ANDREY</span>
       <span class="tourn-dash">—</span>
       ${aLogo ? `<img class="tourn-club" src="${aLogo}" alt="ANDREY CLUB" onerror="this.style.display='none'">` : ""}
 
       <span class="tourn-center-gap" aria-hidden="true"></span>
 
-      <span class="tourn-player">MAKS</span>
+      <span class="tourn-player ${maksWon ? "tourn-player--winner" : (andreyWon ? "tourn-player--loser" : "")}">MAKS</span>
       <span class="tourn-dash">—</span>
       ${mLogo ? `<img class="tourn-club" src="${mLogo}" alt="MAKS CLUB" onerror="this.style.display='none'">` : ""}
     </div>
@@ -304,6 +501,14 @@ function renderTournamentEmptyView(root) {
   const gsM = details?.groupStage?.maks || null;
 
   const ko = details?.knockout || {};
+
+  const champ =
+  (ko?.final?.andrey?.result === "W") ? { who: "ANDREY", team: aTeamLabel, logo: aLogo } :
+  (ko?.final?.maks?.result === "W")   ? { who: "MAKS",   team: mTeamLabel, logo: mLogo } :
+  null;
+
+
+
   const awards = details?.awards || {};
   const mvp = awards?.mvp || null;
 
@@ -449,7 +654,20 @@ function renderTournamentEmptyView(root) {
         </div>
       </div>
 
-      <div class="tournament-hero-right"></div>
+      <div class="tournament-hero-right">
+  ${champ ? `
+    <div class="hero-champion">
+      <div class="hero-champion-label">CHAMPION</div>
+      <div class="hero-champion-line">
+        <span class="hero-champion-who">${champ.who}</span>
+        ${champ.logo ? `<img class="hero-champion-club" src="${champ.logo}" alt="${champ.team}" onerror="this.style.display='none'">` : ""}
+      </div>
+    </div>
+  ` : ``}
+</div>
+
+
+
     </div>
 
     <div class="tournament-section">
@@ -576,7 +794,7 @@ function renderSeasonTiles(grid) {
 
       <div class="season-tile-body"></div>
 
-      ${season.isCurrent ? '<div class="season-tile-status">АКТУАЛЬНАЯ</div>' : ""}
+      ${season.isCurrent ? '<div class="season-tile-status">ACTUAL</div>' : ""}
     `;
 
     grid.appendChild(card);
@@ -593,15 +811,93 @@ function renderSeasonTiles(grid) {
   });
 }
 
+
+function getTrophyCounts(playerKey) {
+  const p = (window.TROPHY_DATA && window.TROPHY_DATA[playerKey]) ? window.TROPHY_DATA[playerKey] : {};
+
+  const cl = Array.isArray(p?.championsLeague?.items) ? p.championsLeague.items.length : 0;
+  const euro = Array.isArray(p?.euro?.items) ? p.euro.items.length : 0;
+  const wc = Array.isArray(p?.worldCup?.items) ? p.worldCup.items.length : 0;
+  const sc = Array.isArray(p?.superCup?.items) ? p.superCup.items.length : 0;
+
+  return { cl, euro, wc, sc, score: cl + euro + wc + sc };
+}
+
+function buildTrophySummaryHtml(playerKey) {
+  const d = (window.TROPHY_DATA && window.TROPHY_DATA[playerKey]) ? window.TROPHY_DATA[playerKey] : null;
+
+  const getLen = (zoneKey) => {
+    const z = d && d[zoneKey];
+    return (z && Array.isArray(z.items)) ? z.items.length : 0;
+  };
+
+  const getColor = (zoneKey, fallback) => {
+    const z = d && d[zoneKey];
+    return (z && z.themeColor) ? z.themeColor : fallback;
+  };
+
+  const ucl  = getLen("championsLeague");
+  const euro = getLen("euro");
+  const wc   = getLen("worldCup");
+  const sc   = getLen("superCup");
+
+  const total = ucl + euro + wc + sc;
+
+  const cUcl  = getColor("championsLeague", "#7C3AED");
+  const cEuro = getColor("euro",           "#EF4444");
+  const cWc   = getColor("worldCup",       "#FACC15");
+  const cSc   = getColor("superCup",       "#D1D5DB");
+
+  return `
+    <div class="trophy-sum-pill">
+      <div class="trophy-sum-item" style="--sum-color:${cUcl}">
+        <div class="trophy-sum-k">UCL</div>
+        <div class="trophy-sum-v">${ucl}</div>
+      </div>
+
+      <div class="trophy-sum-sep"></div>
+
+      <div class="trophy-sum-item" style="--sum-color:${cEuro}">
+        <div class="trophy-sum-k">EURO</div>
+        <div class="trophy-sum-v">${euro}</div>
+      </div>
+
+      <div class="trophy-sum-sep"></div>
+
+      <div class="trophy-sum-item" style="--sum-color:${cWc}">
+        <div class="trophy-sum-k">WC</div>
+        <div class="trophy-sum-v">${wc}</div>
+      </div>
+
+      <div class="trophy-sum-sep"></div>
+
+      <div class="trophy-sum-item" style="--sum-color:${cSc}">
+        <div class="trophy-sum-k">SC</div>
+        <div class="trophy-sum-v">${sc}</div>
+      </div>
+
+      <div class="trophy-sum-sep trophy-sum-sep--wide"></div>
+
+      <div class="trophy-sum-item trophy-sum-item--total">
+        <div class="trophy-sum-k">TOTAL</div>
+        <div class="trophy-sum-v">${total}</div>
+      </div>
+    </div>
+  `;
+}
+
+
+
 /**
  * ЭКРАН ANDREY – пока каркас, дальше сюда въедут реальные трофеи.
  */
 function renderAndreyView(root) {
+  const sum = buildTrophySummaryHtml("andrey");
+
   root.innerHTML = `
     <div class="andrey-layout">
-      <div class="andrey-meta">
-        <div class="andrey-meta-name">ANDREY</div>
-        <div class="andrey-meta-summary">CL 32 · EURO 17 · WC 6 · SC 2</div>
+      <div class="trophy-sum-wrap">
+        ${sum}
       </div>
       <div id="andrey-trophies"></div>
     </div>
@@ -609,6 +905,8 @@ function renderAndreyView(root) {
 
   renderAndreyTrophies();
 }
+
+
 
 function renderAndreyTrophies() {
   const container = document.getElementById("andrey-trophies");
@@ -752,11 +1050,12 @@ if (item.isManualLegendStreak) {
  * ЭКРАН MAKS.
  */
 function renderMaksView(root) {
+  const sum = buildTrophySummaryHtml("maks");
+
   root.innerHTML = `
     <div class="andrey-layout">
-      <div class="andrey-meta">
-        <div class="andrey-meta-name">MAKS</div>
-        <div class="andrey-meta-summary">CL 15 · EURO 3 · WC 2 · SC 0</div>
+      <div class="trophy-sum-wrap">
+        ${sum}
       </div>
       <div id="maks-trophies"></div>
     </div>
@@ -764,6 +1063,8 @@ function renderMaksView(root) {
 
   renderMaksTrophies();
 }
+
+
 
 
 
