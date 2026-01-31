@@ -730,6 +730,61 @@ window.CURRENT_UCL_CHAMPION = {
 
 window.FC26_TOURNAMENTS = [
 
+
+      {
+    id: "fc26-ucl-2026-31-01",
+    type: "superCup",
+    title: "SC",
+    date: "31.01.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "barca",
+    andreyTeamLabel: "BARCELONA",
+    maksTeamKey: "none",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "NONE",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 2,  played: 3, w: 1, d: 1, l: 1, gf: 10, ga: 7, gd:  3, pts: 4 },
+        
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        r16: { andrey: null, maks: null }, // 1/8 (у вас прочерк)
+
+        qf: { // 1/4
+          andrey: {
+            opponentKey: "PSG",
+            opponentLabel: "PSG",
+            agg: { f: 4, a: 2 },
+            legs: [{ f: 4, a: 2 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        sf: { // 1/2
+          andrey: {
+            opponentKey: "real-madrid",
+            opponentLabel: "REAL MADRID",
+            agg: { f: 3, a: 6 },
+            legs: [{ f: 3, a: 6 }],
+            result: "L"
+          },
+          maks: null
+        },
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+
+
+    }
+  },
+
         {
     id: "fc26-ucl-2026-29-01",
     type: "championsLeague",
