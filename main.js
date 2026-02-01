@@ -520,17 +520,10 @@ function renderTournamentEmptyView(root) {
 
     return `
       <div class="gs-card">
-        <div class="gs-card-head">
-          <div class="gs-who">
-            <span class="gs-who-name">${whoLabel}</span>
-            <span class="gs-who-dash">—</span>
-            <span class="gs-who-team">${teamLabel}</span>
-          </div>
-          ${logo ? `<img class="gs-logo" src="${logo}" alt="${teamLabel}" onerror="this.style.display='none'">` : ""}
-        </div>
+        
 
         <div class="gs-place">
-          <span class="gs-place-label">GROUP STAGE</span>
+          
           <span class="gs-place-value">${place ? `#${place}` : "—"}</span>
         </div>
 
@@ -569,32 +562,39 @@ function renderTournamentEmptyView(root) {
 
       : (legs.length === 1 ? `FT: ${legs[0].f}–${legs[0].a}` : "—");
 
-    const resClass = tie.result === "W" ? "tie-card--win" : (tie.result === "L" ? "tie-card--loss" : "");
+    const cardClass = tie.result === "W" ? "tie-card--win" : (tie.result === "L" ? "tie-card--loss" : "");
+
+
+
 
     const canFlip = legs.length >= 2;
 
     return `
-  <div class="tie-card ${resClass}">
+  <div class="tie-card ${cardClass}">
     <div class="tie-row">
-      <div class="tie-vs">VS</div>
 
-      <div class="tie-oppbig">
+      <div class="tie-crest">
         ${oppLogo ? `<img class="tie-opp-logo-big" src="${oppLogo}" alt="${tie.opponentLabel || "OPP"}" onerror="this.style.display='none'">` : ""}
-        <div class="tie-opp-name-big"><span>${tie.opponentLabel || "OPPONENT"}</span></div>
-
       </div>
 
-      <button class="tie-score flip-card ${canFlip ? "" : "tie-score--locked"}"
-              ${canFlip ? "" : "disabled"}
-              data-mode="agg"
-              data-agg="AGG ${aggText}"
-              data-legs="${legsText}">
+      <div class="tie-opp-name-big">
+        <span>${tie.opponentLabel || "OPPONENT"}</span>
+      </div>
+
+<button class="tie-score flip-card ${canFlip ? "" : "tie-score--locked"}"
+        ${canFlip ? "" : 'aria-disabled="true"'}
+        data-mode="agg"
+        data-agg="AGG ${aggText}"
+        data-legs="${legsText}">
+
         <span class="flip-face flip-front">AGG ${aggText}</span>
         <span class="flip-face flip-back">${legsText}</span>
       </button>
+
     </div>
   </div>
 `;
+
 
   };
 
@@ -602,9 +602,14 @@ function renderTournamentEmptyView(root) {
     const aTie = stageObj?.andrey ?? null;
     const mTie = stageObj?.maks ?? null;
 
-    return `
-      <div class="ko-stage">
-        <div class="ko-stage-label">${label}</div>
+    const isFinal = String(label).toUpperCase() === "FINAL";
+
+            return `
+      <div class="ko-stage ${isFinal ? "ko-stage--final" : ""}">
+        <div class="ko-stage-head">
+          <div class="ko-stage-label">${label}</div>
+        </div>
+
         <div class="ko-stage-grid">
           <div class="ko-col">
             ${tieHtml(aTie)}
@@ -615,19 +620,26 @@ function renderTournamentEmptyView(root) {
         </div>
       </div>
     `;
+
+
   };
+
 
   const section = document.createElement("section");
   section.className = "tournament-page";
   section.style.setProperty("--tourn-color", theme.color);
 
-  section.innerHTML = `
-    <div class="tournament-page-head">
-      <div class="tournament-page-title">${title}${date ? ` • ${date}` : ""}</div>
-      <button class="tournament-page-back" data-action="back-to-tournaments">BACK</button>
-    </div>
+    // водяные лого для афиши (если лого нет — будет "none")
+  section.style.setProperty("--hero-a-logo", aLogo ? `url('${aLogo}')` : "none");
+  section.style.setProperty("--hero-m-logo", mLogo ? `url('${mLogo}')` : "none");
 
-    <div class="tournament-hero">
+
+  section.innerHTML = `
+
+
+    <div class="tournament-hero tournament-hero--poster">
+  <button class="tournament-hero-back" data-action="back-to-tournaments">BACK</button>
+
       <div class="tournament-hero-left">
         <div class="hero-line">
           <span class="hero-ucl">${title}</span>
@@ -638,31 +650,24 @@ function renderTournamentEmptyView(root) {
 
       <div class="tournament-hero-center">
         <div class="hero-player">
-          <span class="hero-player-name">ANDREY</span>
-          <span class="hero-dash">—</span>
+
           ${aLogo ? `<img class="hero-club" src="${aLogo}" alt="${aTeamLabel}" onerror="this.style.display='none'">` : ""}
           <span class="hero-team">${aTeamLabel}</span>
         </div>
 
-        <div class="hero-sep" aria-hidden="true"></div>
+        <div class="hero-vs" aria-hidden="true">VS</div>
 
-        <div class="hero-player">
-          <span class="hero-player-name">MAKS</span>
-          <span class="hero-dash">—</span>
-          ${mLogo ? `<img class="hero-club" src="${mLogo}" alt="${mTeamLabel}" onerror="this.style.display='none'">` : ""}
-          <span class="hero-team">${mTeamLabel}</span>
-        </div>
+
+<div class="hero-player hero-player--right">
+  <span class="hero-team">${mTeamLabel}</span>
+  ${mLogo ? `<img class="hero-club" src="${mLogo}" alt="${mTeamLabel}" onerror="this.style.display='none'">` : ""}
+</div>
+
       </div>
 
       <div class="tournament-hero-right">
   ${champ ? `
-    <div class="hero-champion">
-      <div class="hero-champion-label">CHAMPION</div>
-      <div class="hero-champion-line">
-        <span class="hero-champion-who">${champ.who}</span>
-        ${champ.logo ? `<img class="hero-champion-club" src="${champ.logo}" alt="${champ.team}" onerror="this.style.display='none'">` : ""}
-      </div>
-    </div>
+    
   ` : ``}
 </div>
 
@@ -690,19 +695,26 @@ function renderTournamentEmptyView(root) {
 
     <div class="tournament-section">
       <div class="section-title">AWARDS</div>
-      <div class="award-card">
-        <div class="award-left">
-          <div class="award-label">MVP</div>
-          <div class="award-name">${mvp?.player || "—"}</div>
-          <div class="award-team">${mvp?.teamLabel || "—"}</div>
-        </div>
-        <div class="award-right">
-          ${mvp?.teamKey ? `<img class="award-logo" src="${window.getLogoPath(mvp.teamKey)}" alt="${mvp.teamLabel || "TEAM"}" onerror="this.style.display='none'">` : ""}
-          <div class="award-rating">${typeof mvp?.ratingAvg === "number" ? mvp.ratingAvg.toFixed(2) : "—"}</div>
-          <div class="award-rating-label">AVG RATING</div>
-        </div>
-      </div>
+      <div class="award-fut">
+  <div class="award-fut-left">
+    <div class="award-fut-tag">MVP</div>
+
+    <div class="award-fut-player">${mvp?.player || "—"}</div>
+
+    <div class="award-fut-team">
+      ${mvp?.teamKey ? `<img class="award-fut-teamlogo" src="${window.getLogoPath(mvp.teamKey)}" alt="${mvp.teamLabel || "TEAM"}" onerror="this.style.display='none'">` : ""}
+      <span class="award-fut-teamname">${mvp?.teamLabel || "—"}</span>
     </div>
+  </div>
+
+  <div class="award-fut-right">
+    <div class="award-fut-rating">
+      <div class="award-fut-rating-num">${typeof mvp?.ratingAvg === "number" ? mvp.ratingAvg.toFixed(2) : "—"}</div>
+      <div class="award-fut-rating-label">AVG RATING</div>
+    </div>
+  </div>
+</div>
+
   `;
 
   section.onclick = (e) => {
@@ -713,7 +725,10 @@ function renderTournamentEmptyView(root) {
     }
 
 const scoreBtn = e.target.closest(".tie-score");
-if (!scoreBtn || scoreBtn.disabled) return;
+if (!scoreBtn) return;
+if (scoreBtn.getAttribute("aria-disabled") === "true") return;
+
+
 
 const mode = scoreBtn.dataset.mode;
 if (mode === "agg") {
