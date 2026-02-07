@@ -731,6 +731,59 @@ window.CURRENT_UCL_CHAMPION = {
 window.FC26_TOURNAMENTS = [
 
 
+        {
+    id: "fc26-ucl-2026-06-02",
+    type: "championsLeague",
+    title: "UCL",
+    date: "06.02.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "barca",
+    andreyTeamLabel: "BARCELONA",
+    maksTeamKey: "newcastle",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "NEWCASTLE UNITED",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 4,  played: 8, w: 5, d: 2, l: 1, gf: 32, ga: 22, gd:  10, pts: 17 },
+        maks:   { place: 24,  played: 8, w: 3, d: 0, l: 5, gf: 27, ga: 29, gd:  -2, pts: 9 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { // 1/16
+          andrey: null,
+          maks: {
+            opponentKey: "anderlecht",
+            opponentLabel: "ANDERLECHT",
+            agg: { f: 5, a: 6 },
+            legs: [{ f: 2, a: 3 }, { f: 3, a: 3 }],
+            result: "L"
+          }
+        }, 
+
+        r16: { andrey: {
+            opponentKey: "spurs",
+            opponentLabel: "TOTTENHAM",
+            agg: { f: 7, a: 8 },
+            legs: [{ f: 6, a: 2 }, { f: 1, a: 6 }],
+            result: "L"
+          },
+          maks: null },
+
+        qf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        sf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+
+
+
+    }
+  },
+
       {
     id: "fc26-ucl-2026-31-01",
     type: "superCup",
