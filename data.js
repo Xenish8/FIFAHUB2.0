@@ -392,7 +392,8 @@ const TROPHY_DATA = {
           streakId: "cl-leipzig-1",
           streakIndex: 1,
           streakLength: 2
-        }
+        },
+        { teamKey: "liverpool",     fifaId: "fifa26" },
         
       ]
     }
@@ -713,9 +714,9 @@ window.LC_DRAFT_PACKS = {
 // =========================
 window.CURRENT_UCL_CHAMPION = {
   playerLabel: "ANDREY",
-  teamKey: "barca",
-  teamLabel: "BARCELONA",
-  date: "29.01.2026",
+  teamKey: "liverpool",
+  teamLabel: "LIVERPOOL",
+  date: "18.02.2026",
   note: "UCL CHAMPION"
 };
 
@@ -730,6 +731,85 @@ window.CURRENT_UCL_CHAMPION = {
 
 window.FC26_TOURNAMENTS = [
 
+
+        {
+    id: "fc26-ucl-2026-21-02",
+    type: "championsLeague",
+    title: "UCL",
+    date: "21.02.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "liverpool",
+    andreyTeamLabel: "LIVERPOOL",
+    maksTeamKey: "chelsea",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "CHELSEA",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 4,  played: 8, w: 6, d: 0, l: 2, gf: 28, ga: 20, gd:  8, pts: 18 },
+        maks:   { place: 27,  played: 8, w: 2, d: 2, l: 4, gf: 22, ga: 21, gd:  1, pts: 8 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { andrey: null, maks: null },
+
+        r16: { // 1/8
+          andrey: {
+            opponentKey: "roma",
+            opponentLabel: "ROMA",
+            agg: { f: 6, a: 5 },
+            legs: [{ f: 1, a: 4 }, { f: 5, a: 1 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        qf: { // 1/4
+          andrey: {
+            opponentKey: "bvb",
+            opponentLabel: "BORUSSIA DORTMUND",
+            agg: { f: 6, a: 3 },
+            legs: [{ f: 2, a: 1 }, { f: 4, a: 2 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        sf: { // 1/2
+          andrey: {
+            opponentKey: "fenerbahce",
+            opponentLabel: "FENERBAHÇE",
+            agg: { f: 8, a: 3 },
+            legs: [{ f: 5, a: 2 }, { f: 3, a: 1 }],
+            result: "W"
+          },
+          maks: null
+        },
+
+        final: { // финал
+          andrey: {
+            opponentKey: "psg",
+            opponentLabel: "PSG",
+            agg: { f: 6, a: 2 },
+            result: "W"
+          },
+          maks: null
+        },
+      },
+      awards: {
+        mvp: {
+          player: "Alexander Isak - 87",
+          teamKey: "liverpool",
+          teamLabel: "LIVERPOOL",
+          ratingAvg: 8.60
+        }
+      }
+
+
+    }
+  },
 
         {
     id: "fc26-ucl-2026-06-02",
@@ -1222,6 +1302,13 @@ window.HOF_SCORERS = [
   },
     {
     rank: 4,
+    name: "Alexander Isak",
+    teamKey: "liverpool",
+    goals: 28,
+    photo: "assets/halloffames/isak.png"
+  },
+    {
+    rank: 5,
     name: "Robert Lewandowski",
     teamKey: "barca",
     goals: 26,
