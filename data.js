@@ -731,6 +731,55 @@ window.CURRENT_UCL_CHAMPION = {
 
 window.FC26_TOURNAMENTS = [
 
+      {
+    id: "fc26-ucl-2026-21-02",
+    type: "championsLeague",
+    title: "UCL",
+    date: "21.02.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "liverpool",
+    andreyTeamLabel: "LIVERPOOL",
+    maksTeamKey: "copenhagen",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "KØBENHAVN",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 13,  played: 8, w: 4, d: 2, l: 2, gf: 26, ga: 25, gd:  1, pts: 14 },
+        maks:   { place: 36,  played: 8, w: 0, d: 2, l: 6, gf: 20, ga: 33, gd:  -13, pts: 2 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { // 1/16
+          andrey: {
+            opponentKey: "at-bilbao",
+            opponentLabel: "ATHLETIC BILBAO",
+            agg: { f: 8, a: 9 },
+            legs: [{ f: 4, a: 2 }, { f: 4, a: 7 }],
+            result: "L"
+          },
+          maks: null
+        }, 
+
+        r16: { andrey: null, maks: null },
+
+        qf: { andrey: null, maks: null }, 
+
+        sf: { andrey: null, maks: null }, 
+
+        final: { andrey: null, maks: null }, 
+      },
+      awards: {
+        mvp: {
+        }
+      }
+
+
+    }
+  },
+
 
         {
     id: "fc26-ucl-2026-21-02",
