@@ -731,7 +731,8 @@ window.CURRENT_UCL_CHAMPION = {
 
 window.FC26_TOURNAMENTS = [
 
-      {
+
+        {
     id: "fc26-ucl-2026-21-02",
     type: "championsLeague",
     title: "UCL",
@@ -771,21 +772,17 @@ window.FC26_TOURNAMENTS = [
 
         final: { andrey: null, maks: null }, 
       },
-      awards: {
-        mvp: {
-        }
-      }
 
 
     }
   },
-
+  
 
         {
-    id: "fc26-ucl-2026-21-02",
+    id: "fc26-ucl-2026-18-02",
     type: "championsLeague",
     title: "UCL",
-    date: "21.02.2026",
+    date: "18.02.2026",
 
     // кто играет (для логотипов и подписей)
     andreyTeamKey: "liverpool",
@@ -859,6 +856,7 @@ window.FC26_TOURNAMENTS = [
 
     }
   },
+
 
         {
     id: "fc26-ucl-2026-06-02",
