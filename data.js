@@ -732,6 +732,237 @@ window.CURRENT_UCL_CHAMPION = {
 window.FC26_TOURNAMENTS = [
 
 
+            {
+    id: "fc26-ucl-2026-19-04",
+    type: "championsLeague",
+    title: "UCL",
+    date: "19.04.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "betis",
+    andreyTeamLabel: "REAL BETIS",
+    maksTeamKey: "brondby",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "BRØNDBY IF",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 22,  played: 8, w: 2, d: 3, l: 3, gf: 22, ga: 24, gd:  -2, pts: 9 },
+        maks:   { place: 14,  played: 8, w: 4, d: 2, l: 2, gf: 31, ga: 29, gd:  2, pts: 14 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { // 1/16
+          andrey: {
+            opponentKey: "juventus",
+            opponentLabel: "JUVENTUS",
+            agg: { f: 7, a: 5 },
+            legs: [{ f: 7, a: 1 }, { f: 0, a: 4 }],
+            result: "W"
+          },
+          maks: {
+            opponentKey: "napoli",
+            opponentLabel: "NAPOLI",
+            agg: { f: 5, a: 6 },
+            legs: [{ f: 2, a: 2 }, { f: 3, a: 4 }],
+            result: "L"
+          }
+        }, 
+
+        r16: { andrey: {
+            opponentKey: "bvb",
+            opponentLabel: "BORUSSIA DORTMUND",
+            agg: { f: 6, a: 4 },
+            legs: [{ f: 3, a: 1 }, { f: 3, a: 3 }],
+            result: "W"
+          },
+          maks: null },
+
+        qf: { andrey: {
+            opponentKey: "arsenal",
+            opponentLabel: "ARSENAL",
+            agg: { f: 4, a: 3 },
+            legs: [{ f: 2, a: 2 }, { f: 2, a: 1 }],
+            result: "W"
+          },
+          maks: null }, // 1/16 (у вас прочерк)
+
+        sf: { andrey: {
+            opponentKey: "chelsea",
+            opponentLabel: "CHELSEA",
+            agg: { f: 3, a: 4 },
+            legs: [{ f: 1, a: 0 }, { f: 2, a: 4 }],
+            result: "L"
+          },
+          maks: null },
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+
+
+
+    }
+  },
+
+      {
+    id: "fc26-ucl-2026-18-04",
+    type: "championsLeague",
+    title: "UCL",
+    date: "18.04.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "lille",
+    andreyTeamLabel: "LOSC LILLE",
+    maksTeamKey: "koln",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "FC KÖLN",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 17,  played: 8, w: 3, d: 1, l: 4, gf: 31, ga: 25, gd:  6, pts: 10 },
+        maks:   { place: 30,  played: 8, w: 2, d: 0, l: 6, gf: 18, ga: 35, gd:  -17, pts: 6 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { // 1/8
+          andrey: {
+            opponentKey: "villareal",
+            opponentLabel: "VILLAREAL FC",
+            agg: { f: 8, a: 3 },
+            legs: [{ f: 4, a: 2 }, { f: 4, a: 1 }],
+            result: "W"
+          },
+          maks: null
+        }, // 1/16 (у вас прочерк)
+
+        r16: { andrey: {
+            opponentKey: "liverpool",
+            opponentLabel: "LIVERPOOL",
+            agg: { f: 6, a: 8 },
+            legs: [{ f: 1, a: 5 }, { f: 5, a: 3 }],
+            result: "L"
+          },
+          maks: null },
+
+        qf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        sf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+      awards: {
+        mvp: {
+        }
+      }
+
+
+    }
+  },
+
+
+
+        {
+    id: "fc26-ucl-2026-28-03",
+    type: "championsLeague",
+    title: "UCL",
+    date: "28.03.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "brentford",
+    andreyTeamLabel: "BRENTFORD",
+    maksTeamKey: "santa-clara",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "SANTA CLARA",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 34,  played: 8, w: 1, d: 1, l: 6, gf: 15, ga: 22, gd:  -7, pts: 4 },
+        maks:   { place: 33,  played: 8, w: 1, d: 2, l: 5, gf: 15, ga: 27, gd:  -12, pts: 5 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { // 1/16
+          andrey: null,
+          maks: null
+        }, 
+
+        r16: { andrey: null, maks: null },
+
+        qf: { andrey: null, maks: null }, 
+
+        sf: { andrey: null, maks: null }, 
+
+        final: { andrey: null, maks: null }, 
+      },
+
+
+    }
+  },
+
+
+          {
+    id: "fc26-ucl-2026-25-03",
+    type: "championsLeague",
+    title: "UCL",
+    date: "25.03.2026",
+
+    // кто играет (для логотипов и подписей)
+    andreyTeamKey: "milan",
+    andreyTeamLabel: "MILAN",
+    maksTeamKey: "man-city",          // если лого не то — поменяешь ключ тут
+    maksTeamLabel: "MANCHESTER CITY",
+
+    // данные турнира (всё, что будет на странице)
+    details: {
+      groupStage: {
+        andrey: { place: 21,  played: 8, w: 3, d: 1, l: 4, gf: 26, ga: 35, gd:  -9, pts: 10 },
+        maks:   { place: 22,  played: 8, w: 2, d: 3, l: 3, gf: 22, ga: 23, gd:  -1, pts: 9 }
+      },
+
+      // Плей-офф: если нет стадии — ставь null
+      knockout: {
+        r32: { // 1/16
+          andrey: {
+            opponentKey: "psg",
+            opponentLabel: "PSG",
+            agg: { f: 7, a: 6 },
+            legs: [{ f: 4, a: 4 }, { f: 3, a: 2 }],
+            result: "W"
+          },
+          maks: {
+            opponentKey: "napoli",
+            opponentLabel: "NAPOLI",
+            agg: { f: 7, a: 9 },
+            legs: [{ f: 3, a: 6 }, { f: 4, a: 3 }],
+            result: "L"
+          }
+        }, 
+
+        r16: { andrey: {
+            opponentKey: "real-madrid",
+            opponentLabel: "REAL MADRID",
+            agg: { f: 2, a: 3 },
+            legs: [{ f: 0, a: 0 }, { f: 2, a: 3 }],
+            result: "L"
+          },
+          maks: null },
+
+        qf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        sf: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+
+        final: { andrey: null, maks: null }, // 1/16 (у вас прочерк)
+      },
+
+
+
+    }
+  },
+
+
         {
     id: "fc26-ucl-2026-21-02",
     type: "championsLeague",
@@ -1354,13 +1585,15 @@ window.HOF_SCORERS = [
     goals: 28,
     photo: "assets/halloffames/isak.png"
   },
-    {
+      {
     rank: 5,
-    name: "Robert Lewandowski",
-    teamKey: "barca",
-    goals: 26,
-    photo: "assets/halloffames/lewandowski.png"
+    name: "Hamza Igamane",
+    teamKey: "lille",
+    goals: 28,
+    photo: "assets/halloffames/igamane.png"
   }
+
+
 ];
 
 
